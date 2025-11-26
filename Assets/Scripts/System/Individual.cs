@@ -15,7 +15,14 @@ public class Individual : MonoBehaviour
     public int Shield_ { get => Shield; }
     public void AddShield(int shield) => Shield += shield;
 
-    private Action WhenDead;//死亡时效果
+    public Individual Enemy;//敌对单位
+
+    public Action WhenDead;//死亡时效果
+
+    public Individual(int health)
+    {
+        Health = MaxHealth = health;
+    }
 
     public int Hurt(int damage)
     {
