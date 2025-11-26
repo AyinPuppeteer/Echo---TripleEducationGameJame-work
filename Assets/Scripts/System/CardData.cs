@@ -39,7 +39,7 @@ public class CardData : ScriptableObject
     public Sprite Image_ { get => Image; }
 
     [SerializeField]
-    private List<CardEffect> WhenPlayEffect = new();//打出时效果
+    private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
 
     private const string PathRoot = "ScriptAssets/卡片数据/";
 
@@ -79,11 +79,30 @@ public class CardData : ScriptableObject
     #endregion
 
     //当打出时
-    public virtual void WhenPlay()
+    public virtual void WhenPlay(Individual player, Individual aim)
     {
         foreach(var effect in WhenPlayEffect)
         {
-            effect.OnWork();
+            effect.OnWork(player, aim);
+        }
+
+        switch (Type)
+        {
+            case CardType.攻击:
+                {
+                    aim.Hurt(Value);
+                    break;
+                }
+            case CardType.防御:
+                {
+                    aim.AddShield(Value);
+                    break;
+                }
+            case CardType.治疗:
+                {
+                    aim.Heal(Value);
+                    break;
+                }
         }
     }
 }
