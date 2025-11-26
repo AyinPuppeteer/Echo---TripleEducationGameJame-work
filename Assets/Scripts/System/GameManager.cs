@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     private int Turn;//第几次战斗
     public int Turn_ { get => Turn; }
 
+    private float Luckiness;//幸运（影响商店刷新物品的质量）
+    public float Luckiness_ { get => Luckiness; }
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
