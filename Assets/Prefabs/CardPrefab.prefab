@@ -221,8 +221,7 @@ GameObject:
   - component: {fileID: 4841647515464824571}
   - component: {fileID: 5043705443741270714}
   - component: {fileID: 8784287783622530281}
-  - component: {fileID: 2017984240242365189}
-  - component: {fileID: 8409443164196459910}
+  - component: {fileID: 1477377868657298025}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -301,7 +300,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2017984240242365189
+--- !u!114 &1477377868657298025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,29 +309,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 9216081144180320527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fb5245a3b5a58b4fb2be0834abd9217, type: 3}
+  m_Script: {fileID: 11500000, guid: b27575ca76c74e24298978b793e6aff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 0}
-  cardArtImage: {fileID: 1034633870967479683}
-  cardFrameImage: {fileID: 0}
-  sequenceText: {fileID: 0}
-  cardName: 
---- !u!114 &8409443164196459910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9216081144180320527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f91b705ca3f2fe141bcbff3f61c76f8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardImage: {fileID: 5043705443741270714}
-  canvasGroup: {fileID: 0}
+  cardImage: {fileID: 1034633870967479683}
+  sequenceText: {fileID: 8825285685540435076}
+  nameText: {fileID: 0}
+  valueText: {fileID: 0}
+  canvasGroup: {fileID: 8784287783622530281}
   hoverScale: 1.1
-  hoverRaise: 20
   dragAlpha: 0.7
-  sequenceText: {fileID: 0}

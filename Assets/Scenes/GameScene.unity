@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 103271186}
   - component: {fileID: 103271188}
   - component: {fileID: 103271187}
+  - component: {fileID: 103271190}
   m_Layer: 5
   m_Name: "\u73A9\u5BB6\u624B\u724C\u533A"
   m_TagString: Untagged
@@ -275,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -299,6 +300,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103271185}
   m_CullTransparentMesh: 1
+--- !u!114 &103271190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103271185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d5cc6ab5a9b0a4ebbf596337565e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCards: 10
+  cardsPerLayer: 5
+  layerSpacing: 150
+  cardSpacing: 120
 --- !u!1 &237000240
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +565,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardPrefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2017984240242365189, guid: d06c79ccf3959864eae331735ab1b92a, type: 3}
+    - {fileID: 8409443164196459910, guid: d06c79ccf3959864eae331735ab1b92a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -604,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -743,6 +762,7 @@ GameObject:
   - component: {fileID: 660976030}
   - component: {fileID: 660976032}
   - component: {fileID: 660976031}
+  - component: {fileID: 660976033}
   m_Layer: 5
   m_Name: "\u5F00\u59CB\u6309\u94AE"
   m_TagString: Untagged
@@ -768,7 +788,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -800, y: -940}
+  m_SizeDelta: {x: -640, y: -940}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &660976031
 MonoBehaviour:
@@ -784,7 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -808,6 +828,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660976029}
   m_CullTransparentMesh: 1
+--- !u!114 &660976033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660976029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad38b166489c9364b876e6b57d2095a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &912751790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,7 +1100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1394,6 +1426,7 @@ GameObject:
   - component: {fileID: 1349897620}
   - component: {fileID: 1349897618}
   - component: {fileID: 1349897622}
+  - component: {fileID: 1349897625}
   m_Layer: 5
   m_Name: "\u6218\u6597\u753B\u5E03"
   m_TagString: Untagged
@@ -1469,12 +1502,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349897617}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58306f9f0d0c9e2478d60b1f0ea22763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Canva: {fileID: 1349897623}
+  CardField_Player: {fileID: 103271186}
+  CardField_Mirror: {fileID: 1424698841}
+  CardOb: {fileID: 9216081144180320527, guid: d06c79ccf3959864eae331735ab1b92a, type: 3}
 --- !u!225 &1349897623
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1487,6 +1523,14 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!222 &1349897625
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349897617}
+  m_CullTransparentMesh: 1
 --- !u!1 &1412096291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1695,6 +1739,7 @@ GameObject:
   - component: {fileID: 1918652612}
   - component: {fileID: 1918652611}
   - component: {fileID: 1918652610}
+  - component: {fileID: 1918652613}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1776,6 +1821,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1918652613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918652609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
