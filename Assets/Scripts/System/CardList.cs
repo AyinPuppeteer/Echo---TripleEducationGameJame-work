@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //管理卡片列表的脚本（例如牌组、墓地等)
-public class CardList : MonoBehaviour, IEnumerable<CardData>
+public class CardList : IEnumerable<CardData>
 {
     private readonly List<CardData> Cards = new();
 
