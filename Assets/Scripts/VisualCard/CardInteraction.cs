@@ -44,10 +44,10 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
         isHovered = true;
 
         // 显示Tooltip
-        if (DynamicTooltipSystem.Instance != null && cardDisplay != null)
-        {
-            DynamicTooltipSystem.Instance.ShowTooltip(cardDisplay);
-        }
+        //if (DynamicTooltipSystem.Instance != null && cardDisplay != null)
+        //{
+        //    DynamicTooltipSystem.Instance.ShowTooltip(cardDisplay);
+        //}
 
         // 悬停动画
         PlayHoverAnimation();
@@ -63,10 +63,10 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
         isHovered = false;
 
         // 隐藏Tooltip
-        if (DynamicTooltipSystem.Instance != null)
-        {
-            DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-        }
+        //if (DynamicTooltipSystem.Instance != null)
+        //{
+        //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
+        //}
 
         // 恢复动画
         PlayResetAnimation();
@@ -101,10 +101,10 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // 当卡牌被拖拽时调用（如果你实现了拖拽功能）
     public void OnBeginDrag()
     {
-        if (DynamicTooltipSystem.Instance != null)
-        {
-            DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-        }
+        //if (DynamicTooltipSystem.Instance != null)
+        //{
+        //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
+        //}
 
         // 停止所有动画
         StopAllAnimations();
@@ -154,10 +154,10 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (!interactive)
         {
-            if (DynamicTooltipSystem.Instance != null)
-            {
-                DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-            }
+            //if (DynamicTooltipSystem.Instance != null)
+            //{
+            //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
+            //}
 
             StopAllAnimations();
             //cardDisplay?.SetHighlighted(false);
