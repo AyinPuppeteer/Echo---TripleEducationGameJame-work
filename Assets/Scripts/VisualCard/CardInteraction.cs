@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class CardInteraction : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler,
@@ -18,6 +19,12 @@ public class CardInteraction : MonoBehaviour,
     [Header("拖拽设置")]
     [SerializeField] private float dragAlpha = 0.7f;
 
+    [Header("序列号显示")]
+    [SerializeField] private TextMeshProUGUI sequenceText;
+
+    // 序列号相关
+    private int sequenceIndex = -1;
+
     // 状态
     private bool isDragging = false;
     private Vector3 originalPosition;
@@ -28,12 +35,14 @@ public class CardInteraction : MonoBehaviour,
     public System.Action<CardInteraction> OnHoverStart;
     public System.Action<CardInteraction> OnHoverEnd;
     public System.Action<CardInteraction, CardArea> OnCardDropped;
-
+    public System.Action<CardInteraction, int> OnSequenceIndexChanged;
+    
     private void Start()
     {
         if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
         if (cardImage == null) cardImage = GetComponent<Image>();
         FindCurrentArea();
+        UpdateSequenceDisplay();
     }
 
     // 鼠标悬停预览
@@ -130,6 +139,36 @@ public class CardInteraction : MonoBehaviour,
         }
     }
 
+    // 设置序列号
+    public void SetSequenceIndex(int index)
+    {
+        if (sequenceIndex != index)
+        {
+            sequenceIndex = index;
+            UpdateSequenceDisplay();
+            OnSequenceIndexChanged?.Invoke(this, index);
+        }
+    }
+
+    public int GetSequenceIndex() => sequenceIndex;
+
+    private void UpdateSequenceDisplay()
+    {
+        if (sequenceText != null)
+        {
+            if (sequenceIndex >= 0)
+            {
+                sequenceText.text = (sequenceIndex + 1).ToString(); // 显示为1-based
+                sequenceText.gameObject.SetActive(true);
+            }
+            else
+            {
+                sequenceText.gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void SetCurrentArea(CardArea area) => currentArea = area;
     public CardArea GetCurrentArea() => currentArea;
+    public string GetCardName() => cardImage != null ? cardImage.name : "Unnamed Card";
 }
