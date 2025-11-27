@@ -1,166 +1,135 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections;
 
-public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class CardInteraction : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler,
+    IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private CardDisplay cardDisplay;
+    [Header("组件引用")]
+    [SerializeField] private Image cardImage;
+    [SerializeField] private CanvasGroup canvasGroup;
 
-    // 悬停状态
-    private bool isHovered = false;
-    private bool isInteractive = true;
+    [Header("悬停效果")]
+    [SerializeField] private float hoverScale = 1.1f;
+    [SerializeField] private float hoverRaise = 20f;
 
-    // 动画相关
-    private Vector3 originalScale;
+    [Header("拖拽设置")]
+    [SerializeField] private float dragAlpha = 0.7f;
+
+    // 状态
+    private bool isDragging = false;
     private Vector3 originalPosition;
-    private const float HoverScale = 1.1f;
-    private const float HoverRaise = 20f;
+    private Transform originalParent;
+    private CardArea currentArea;
+
+    // 事件
+    public System.Action<CardInteraction> OnHoverStart;
+    public System.Action<CardInteraction> OnHoverEnd;
+    public System.Action<CardInteraction, CardArea> OnCardDropped;
 
     private void Start()
     {
-        InitializeComponents();
-        CacheOriginalTransform();
+        if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
+        if (cardImage == null) cardImage = GetComponent<Image>();
+        FindCurrentArea();
     }
 
-    private void InitializeComponents()
+    // 鼠标悬停预览
+    public void OnPointerEnter(PointerEventData eventData) => OnHoverStart?.Invoke(this);
+    public void OnPointerExit(PointerEventData eventData) => OnHoverEnd?.Invoke(this);
+
+    // 拖拽功能
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        if (cardDisplay == null)
+        isDragging = true;
+        originalPosition = transform.localPosition;
+        originalParent = transform.parent;
+
+        canvasGroup.alpha = dragAlpha;
+        canvasGroup.blocksRaycasts = false;
+        transform.SetParent(GetComponentInParent<Canvas>().transform);
+
+        OnHoverEnd?.Invoke(this);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            transform as RectTransform, eventData.position,
+            eventData.pressEventCamera, out Vector3 worldPoint))
         {
-            cardDisplay = GetComponent<CardDisplay>();
+            transform.position = worldPoint;
         }
     }
 
-    private void CacheOriginalTransform()
+    public void OnEndDrag(PointerEventData eventData)
     {
-        originalScale = transform.localScale;
-        originalPosition = transform.position;
-    }
+        isDragging = false;
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("Pointer Enter Detected");
-
-        if (!CanInteract()) return;
-
-        isHovered = true;
-
-        // 显示Tooltip
-        //if (DynamicTooltipSystem.Instance != null && cardDisplay != null)
-        //{
-        //    DynamicTooltipSystem.Instance.ShowTooltip(cardDisplay);
-        //}
-
-        // 悬停动画
-        PlayHoverAnimation();
-
-        // 视觉高亮
-        //cardDisplay?.SetHighlighted(true);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!CanInteract()) return;
-
-        isHovered = false;
-
-        // 隐藏Tooltip
-        //if (DynamicTooltipSystem.Instance != null)
-        //{
-        //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-        //}
-
-        // 恢复动画
-        PlayResetAnimation();
-
-        // 取消高亮
-        //cardDisplay?.SetHighlighted(false);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (!CanInteract()) return;
-
-        // 点击反馈：轻微缩小
-        transform.localScale = originalScale * 0.95f;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (!CanInteract()) return;
-
-        // 恢复大小
-        if (isHovered)
+        CardArea dropArea = FindDropArea(eventData);
+        if (dropArea != null && dropArea != currentArea)
         {
-            transform.localScale = originalScale * HoverScale;
+            MoveToArea(dropArea);
         }
         else
         {
-            transform.localScale = originalScale;
+            ReturnToOriginalPosition();
         }
     }
 
-    // 当卡牌被拖拽时调用（如果你实现了拖拽功能）
-    public void OnBeginDrag()
+    private CardArea FindDropArea(PointerEventData eventData)
     {
-        //if (DynamicTooltipSystem.Instance != null)
-        //{
-        //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-        //}
-
-        // 停止所有动画
-        StopAllAnimations();
-        //cardDisplay?.SetHighlighted(false);
-    }
-
-    private bool CanInteract()
-    {
-        return isInteractive && cardDisplay != null && cardDisplay.CardData != null;
-    }
-
-    private void PlayHoverAnimation()
-    {
-        StopAllAnimations();
-
-        // 使用 LeanTween 或者 Unity 动画
-        LeanTween.cancel(gameObject);
-
-        LeanTween.scale(gameObject, originalScale * HoverScale, 0.2f)
-                 .setEase(LeanTweenType.easeOutBack);
-
-        LeanTween.moveY(gameObject, originalPosition.y + HoverRaise, 0.2f)
-                 .setEase(LeanTweenType.easeOutQuad);
-    }
-
-    private void PlayResetAnimation()
-    {
-        StopAllAnimations();
-
-        LeanTween.cancel(gameObject);
-
-        LeanTween.scale(gameObject, originalScale, 0.15f)
-                 .setEase(LeanTweenType.easeInOutQuad);
-
-        LeanTween.moveY(gameObject, originalPosition.y, 0.15f)
-                 .setEase(LeanTweenType.easeInOutQuad);
-    }
-
-    private void StopAllAnimations()
-    {
-        LeanTween.cancel(gameObject);
-    }
-
-    public void SetInteractive(bool interactive)
-    {
-        isInteractive = interactive;
-
-        if (!interactive)
+        foreach (var result in eventData.hovered)
         {
-            //if (DynamicTooltipSystem.Instance != null)
-            //{
-            //    DynamicTooltipSystem.Instance.HideTooltip(cardDisplay);
-            //}
+            CardArea area = result.GetComponent<CardArea>();
+            if (area != null && area.CanAcceptCard(this)) return area;
+        }
+        return null;
+    }
 
-            StopAllAnimations();
-            //cardDisplay?.SetHighlighted(false);
+    private void MoveToArea(CardArea newArea)
+    {
+        currentArea?.RemoveCard(this);
+        newArea.AddCard(this);
+        currentArea = newArea;
+        OnCardDropped?.Invoke(this, newArea);
+    }
+
+    private void ReturnToOriginalPosition()
+    {
+        transform.SetParent(originalParent);
+        StartCoroutine(MoveToPosition(originalPosition, 0.3f));
+    }
+
+    private IEnumerator MoveToPosition(Vector3 target, float duration)
+    {
+        float elapsed = 0f;
+        Vector3 start = transform.localPosition;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            transform.localPosition = Vector3.Lerp(start, target, elapsed / duration);
+            yield return null;
+        }
+        transform.localPosition = target;
+    }
+
+    private void FindCurrentArea()
+    {
+        Transform parent = transform.parent;
+        while (parent != null)
+        {
+            CardArea area = parent.GetComponent<CardArea>();
+            if (area != null) { currentArea = area; break; }
+            parent = parent.parent;
         }
     }
+
+    public void SetCurrentArea(CardArea area) => currentArea = area;
+    public CardArea GetCurrentArea() => currentArea;
 }
