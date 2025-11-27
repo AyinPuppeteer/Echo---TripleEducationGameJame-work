@@ -40,6 +40,29 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        CardList basedeck = new()
+        {
+            "基础攻击",
+            "基础攻击",
+            "基础攻击",
+            "基础攻击",
+            "基础攻击",
+            "基础攻击",
+            "基础攻击",
+            "基础防御",
+            "基础防御",
+            "基础防御",
+            "基础防御",
+            "基础治疗",
+            "基础治疗"
+        };
+        Init(basedeck);
+
+        BattleManager.Instance.BattleStart();
+    }
+
     //初始化
     public void Init(CardList basedeck)//basecard表示初始卡组
     {

@@ -25,6 +25,10 @@ public class CardList : MonoBehaviour, IEnumerable<CardData>
         CardData newcard = CardData.Cloneby(card);
         Cards.Add(newcard);
     }
+    public void Add(string name)
+    {
+        Add(CardData.Cloneby(name));
+    }
 
     public CardList Clone()
     {

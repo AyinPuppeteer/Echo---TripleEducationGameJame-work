@@ -5,6 +5,14 @@ using UnityEngine;
 //管理商店UI的脚本
 public class ShopManager : MonoBehaviour
 {
+    public CanvasGroup Canva;
+    public void SetActive(bool b)
+    {
+        Canva.alpha = b ? 1 : 0;
+        Canva.interactable = b;
+        Canva.blocksRaycasts = b;
+    }
+
     private GameObject ob;
 
     public static ShopManager Instance { get; private set; }
@@ -12,6 +20,10 @@ public class ShopManager : MonoBehaviour
     private void Awkae()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+        SetActive(false);
     }
 
     public void Init()
