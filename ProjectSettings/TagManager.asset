@@ -8,10 +8,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Sprite
   - Water
   - UI
-  - 
+  - Effect
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sprite
+    uniqueID: 1932912835
+    locked: 0
+  - name: UI
+    uniqueID: 1767957279
+    locked: 0
+  - name: Filter
+    uniqueID: 3737748311
     locked: 0
