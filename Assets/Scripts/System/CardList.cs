@@ -20,6 +20,8 @@ public class CardList : IEnumerable<CardData>
 
     public CardData this[int id] => Cards[id];
 
+    public int Count => Cards.Count;
+
     public void Add(CardData card)
     {
         CardData newcard = CardData.Cloneby(card);
@@ -28,6 +30,11 @@ public class CardList : IEnumerable<CardData>
     public void Add(string name)
     {
         Add(CardData.Cloneby(name));
+    }
+
+    public void AddRange(CardList list)
+    {
+        Cards.AddRange(list);
     }
 
     public CardList Clone()
@@ -47,4 +54,6 @@ public class CardList : IEnumerable<CardData>
         Cards.RemoveAt(t);
         return card;
     }
+
+    public void Clear() => Cards.Clear();
 }

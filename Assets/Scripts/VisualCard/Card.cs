@@ -135,7 +135,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         if (!isInteractable || isDragging) return;
         transform.localScale = Vector3.one * hoverScale;
-        Debug.Log("OnBeginDrag triggered");
+        //Debug.Log("OnBeginDrag triggered");
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -252,14 +252,19 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         // 初始状态
         transform.localScale = Vector3.one * 0.1f;
-        if (canvasGroup != null)
-            canvasGroup.alpha = 0f;
+        if (canvasGroup != null) canvasGroup.alpha = 0f;
 
         // 动画：缩放和透明度
         Sequence seq = DOTween.Sequence();
         seq.Append(transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack));
-        if (canvasGroup != null)
-            seq.Join(canvasGroup.DOFade(1f, 0.3f));
+        if (canvasGroup != null) seq.Join(canvasGroup.DOFade(1f, 0.3f));
+    }
+    public void PlayDisappearAnimation()
+    {
+        // 动画：缩放和透明度
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutBack));
+        if (canvasGroup != null) seq.Join(canvasGroup.DOFade(0f, 0.3f));
     }
 
     public void PlayRippleEffect(int rippleLayerCount = 3)

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //管理战斗的脚本
@@ -22,11 +23,44 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField]
     private CommandArea PlayerHand, MirrorHand;
+    private void AddtoPlayerHand(CardData carddata)
+    {
+        ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
+        Card card = ob.GetComponent<Card>();
+        card.Initialize(carddata);
+        PlayerHand.AddCard(card);//加入手牌区域
+        card.PlayAppearAnimation();
+    }
+    private void AddtoMirrorHand(CardData carddata)
+    {
+        ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
+        Card card = ob.GetComponent<Card>();
+        card.Initialize(carddata);
+        MirrorHand.AddCard(card);//加入手牌区域
+        card.PlayAppearAnimation();
+        DOTween.To(() => 0, x => { }, 0, 0.2f).OnComplete(() => card.PlayRippleEffect());
+    }
 
     [SerializeField]
     private GameObject CardOb;//卡片物体
 
     private GameObject ob;
+
+    private bool CardPlaying;//是否正在打出卡牌
+    private float CardPlayTimer, CardPlayTime = 0.2f;//出牌间隔计时器和出牌间隔
+
+    private int CardIndex;//当前打出的卡牌下标
+
+    #region 回响机制
+    private readonly List<CardData> EchoList = new();//回响序列（镜像的复制序列）
+    /// <summary>
+    /// 让镜像复制指定的魔法
+    /// </summary>
+    public void Echo(CardData card)
+    {
+        if(EchoList.Count < 10) EchoList.Add(CardData.Cloneby(card));
+    }
+    #endregion
 
     public static BattleManager Instance { get; private set; }
 
@@ -41,15 +75,15 @@ public class BattleManager : MonoBehaviour
     {
         SetActive(true);
 
-        GameManager.Instance.Level_++;//轮次增加
+        GameManager.Instance.Level_++;//关卡数增加
 
-        Player = new(20)
+        Player = new(30)
         {
-            WhenDead = Failed
+            Enemy = Mirror
         };
-        Mirror = new(20)
+        Mirror = new(30)
         {
-            WhenDead = Win
+            Enemy = Player
         };
         Deck = GameManager.Instance.Deck_.Clone();
         Tomb = new();
@@ -60,22 +94,89 @@ public class BattleManager : MonoBehaviour
     //回合开始
     public void TurnStart()
     {
+        PlayerHand.ClearCommandArea();
+        MirrorHand.ClearCommandArea();
+
         for(int i = 1; i <= 10; i++)
         {
-            DOTween.To(() => 0, x => { }, 0, 0.1f * i).OnComplete(() =>
+            if(Deck.Count <= 0)
             {
-                ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
-                Card card = ob.GetComponent<Card>();
-                card.Initialize(Deck.Draw());
-                PlayerHand.AddCard(card);//加入手牌区域
-            });
+                if (Tomb.Count >= 1)//卡组空将墓地洗回
+                {
+                    Deck.AddRange(Tomb);
+                    Tomb.Clear();
+                }
+                else break;//如果墓地也空则结束抽牌
+            }
+            CardData carddata = Deck.Draw();
+            DOTween.To(() => 0, x => { }, 0, 0.2f + 0.1f * i).OnComplete(() => AddtoPlayerHand(carddata));
+        }
+        for (int i = 0; i < EchoList.Count; i++)
+        {
+            CardData carddata = EchoList[i];
+            DOTween.To(() => 0, x => { }, 0, 0.3f + 0.1f * i).OnComplete(() => AddtoMirrorHand(carddata));
+        }
+    }
+
+    private void Update()
+    {
+        if (CardPlaying)
+        {
+            if((CardPlayTimer += Time.deltaTime) >= CardPlayTime)
+            {
+                CardPlayTimer = 0;
+                if(++CardIndex > 10)//回合结束
+                {
+                    CardPlaying = false;
+                    CardIndex = 0;
+                    foreach (var card in PlayerHand.CommandSequence_)
+                    {
+                        card.PlayDisappearAnimation();
+                        Tomb.Add(card.CardData);
+                    }
+                    foreach (var card in MirrorHand.CommandSequence_)
+                    {
+                        card.PlayDisappearAnimation();
+                    }
+
+                    if (Player.Health_ < 0) Failed();
+                    else if (Mirror.Health_ < 0) Win();
+                    else
+                    {
+                        DOTween.To(() => 0, x => { }, 0, 0.4f).OnComplete(TurnStart);
+                    }
+                }
+                else
+                {
+                    if(PlayerHand.CommandSequence_.Count >= CardIndex)
+                    {
+                        Card card = PlayerHand.CommandSequence_[CardIndex - 1];
+                        if (Player.Health_ > 0)//血量大于0则使用卡
+                        {
+                            if (card.CardData.Type_ == CardType.攻击) card.CardData.WhenPlay(Player, Mirror);
+                            else card.CardData.WhenPlay(Player, Player);
+                        }
+                        Echo(card.CardData);//回响序列添加
+                    }
+                    if (MirrorHand.CommandSequence_.Count >= CardIndex)
+                    {
+                        Card card = MirrorHand.CommandSequence_[CardIndex - 1];
+                        if (Mirror.Health_ > 0)//血量大于0则使用卡
+                        {
+                            if (card.CardData.Type_ == CardType.攻击) card.CardData.WhenPlay(Mirror, Player);
+                            else card.CardData.WhenPlay(Mirror, Mirror);
+                        }
+                    }
+                }
+            }
         }
     }
 
     //开始使用卡牌
     public void Ready()
     {
-
+        CardPlaying = true;
+        EchoList.Clear();
     }
 
     //战斗胜利

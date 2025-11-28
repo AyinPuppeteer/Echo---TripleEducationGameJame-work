@@ -91,6 +91,8 @@ public class CardData : ScriptableObject
         data.Strength = temple.Strength;
         data.Type = temple.Type;
         data.Rarity = temple.Rarity;
+        data.Image = temple.Image;
+
         data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;
     }

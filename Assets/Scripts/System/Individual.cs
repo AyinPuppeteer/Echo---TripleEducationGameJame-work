@@ -17,8 +17,6 @@ public class Individual
 
     public Individual Enemy;//敌对单位
 
-    public Action WhenDead;//死亡时效果
-
     public Individual(int health) : base()
     {
         Health = MaxHealth = health;
@@ -40,10 +38,6 @@ public class Individual
             }
         }
         Health -= damage;
-        if(Health <= 0)
-        {
-            if(WhenDead != null) WhenDead();
-        }
         return damage;
     }
 

@@ -43,7 +43,7 @@ public class CommandArea : MonoBehaviour
             card.transform.localPosition = targetPosition;
             card.SetSequenceIndex(commandSequence.Count - 1);
 
-            Debug.Log($"卡牌添加到指令区，当前序列位置: {commandSequence.Count - 1}");
+            //Debug.Log($"卡牌添加到指令区，当前序列位置: {commandSequence.Count - 1}");
         }
     }
 
@@ -120,7 +120,7 @@ public class CommandArea : MonoBehaviour
         cardA.SetSequenceIndex(indexB);
         cardB.SetSequenceIndex(indexA);
 
-        Debug.Log($"交换卡牌 {cardA.GetCardName()} 和 {cardB.GetCardName()}，位置 {indexA} 和 {indexB}");
+        //Debug.Log($"交换卡牌 {cardA.GetCardName()} 和 {cardB.GetCardName()}，位置 {indexA} 和 {indexB}");
     }
 
     // 在拖拽过程中处理卡牌位置预览
@@ -165,7 +165,7 @@ public class CommandArea : MonoBehaviour
         // 确保索引在有效范围内
         index = Mathf.Clamp(index, 0, commandSequence.Count);
 
-        Debug.Log($"位置计算: 本地位置({localPos.x:F1}, {localPos.y:F1}) -> 行{row}, 列{col} -> 索引{index}");
+        //Debug.Log($"位置计算: 本地位置({localPos.x:F1}, {localPos.y:F1}) -> 行{row}, 列{col} -> 索引{index}");
 
         return index;
     }

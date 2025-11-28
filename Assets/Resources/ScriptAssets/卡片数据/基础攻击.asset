@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\u57FA\u7840\u653B\u51FB"
   Description: 
-  Strength: 5
+  Strength: 4
   Type: 0
   Rarity: 0
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: ab565564959ab414ab1ef33acef59303, type: 3}
   WhenPlayEffect: []
   references:
     version: 2
