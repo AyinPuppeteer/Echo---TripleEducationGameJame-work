@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
+using DG.Tweening;
 
 public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointerExitHandler,
     IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -21,6 +22,11 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     [SerializeField] private float hoverScale = 1.1f;
     [SerializeField] private float dragAlpha = 0.7f;
 
+    [Header("动画设置")]
+    [SerializeField] private float returnDuration = 0.3f;
+    [SerializeField] private Ease returnEase = Ease.OutCubic;
+
+    private Tween currentTween;
     // 状态
     private bool isDragging = false;
     private Vector3 originalPosition;
@@ -85,9 +91,36 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         if (sequenceText != null)
         {
-            sequenceText.text = (sequenceIndex + 1).ToString();
-            sequenceText.gameObject.SetActive(sequenceIndex >= 0);
+            if (sequenceIndex >= 0)
+                sequenceText.text = ToRoman(sequenceIndex + 1); // 罗马数字从1开始
+            else
+                sequenceText.text = "";
         }
+    }
+    private string ToRoman(int number)
+    {
+        if (number < 1) return "";
+        if (number > 3999) return number.ToString(); // 超出范围直接显示数字
+
+        var romanNumerals = new[]
+        {
+        new { Value = 10, Numeral = "X" },
+        new { Value = 9, Numeral = "IX" },
+        new { Value = 5, Numeral = "V" },
+        new { Value = 4, Numeral = "IV" },
+        new { Value = 1, Numeral = "I" }
+    };
+
+        var result = "";
+        foreach (var item in romanNumerals)
+        {
+            while (number >= item.Value)
+            {
+                result += item.Numeral;
+                number -= item.Value;
+            }
+        }
+        return result;
     }
 
     // 区域状态
@@ -115,6 +148,14 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!isInteractable) return;
+
+        // 停止当前动画
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+            currentTween = null;
+        }
+
         isDragging = true;
         originalPosition = transform.localPosition;
         originalParent = transform.parent;
@@ -171,8 +212,25 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void ReturnToOriginalPosition()
     {
-        transform.SetParent(originalParent);
-        StartCoroutine(MoveToPosition(originalPosition, 0.2f));
+        // 确保父对象正确
+        if (originalParent != null && transform.parent != originalParent)
+        {
+            transform.SetParent(originalParent);
+        }
+
+        // 使用动画回到原位置
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+        }
+
+        currentTween = transform.DOLocalMove(originalPosition, returnDuration)
+            .SetEase(returnEase)
+            .OnComplete(() =>
+            {
+                transform.localScale = Vector3.one;
+                currentTween = null;
+            });
     }
 
     private IEnumerator MoveToPosition(Vector3 target, float duration)
@@ -188,6 +246,15 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
         transform.localPosition = target;
         transform.localScale = Vector3.one;
+    }
+
+    void OnDestroy()
+    {
+        // 清理动画
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+        }
     }
 
     public string GetCardName() => cardData != null ? cardData.Name_ : "Unnamed Card";

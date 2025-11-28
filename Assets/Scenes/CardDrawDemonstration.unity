@@ -376,6 +376,10 @@ MonoBehaviour:
   cardsPerLayer: 5
   layerSpacing: 160
   cardSpacing: 160
+  areaCenterOffset: {x: 0, y: 0}
+  moveDuration: 0.3
+  moveEase: 9
+  isBottomFirstRow: 0
 --- !u!114 &1047480270
 MonoBehaviour:
   m_ObjectHideFlags: 0
