@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,8 +22,19 @@ public class CardData : ScriptableObject
 
     //基本数据（攻击牌：伤害 防御牌：盾值 治疗牌：奶量）
     [SerializeField]
+    [GUIColor("GetColor")]
     private int Value;
     public int Value_ { get => Value; }
+    private Color GetColor()
+    {
+        switch (Type)
+        {
+            case CardType.攻击: return Color.red;
+            case CardType.防御: return Color.blue;
+            case CardType.治疗: return Color.green;
+        }
+        return Color.white;
+    }
 
     //卡牌类型
     [SerializeField]
@@ -38,7 +50,7 @@ public class CardData : ScriptableObject
     private Sprite Image;//图像
     public Sprite Image_ { get => Image; }
 
-    [SerializeField]
+    [SerializeReference]
     private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
 
     private const string PathRoot = "ScriptAssets/卡片数据/";

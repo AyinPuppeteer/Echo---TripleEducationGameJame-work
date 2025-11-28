@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 卡牌效果
 /// </summary>
+[Serializable]
 public abstract class CardEffect : IComparable<CardEffect>
 {
     //描述（用于判断是否重复）
@@ -17,6 +18,7 @@ public abstract class CardEffect : IComparable<CardEffect>
     }
 }
 
+[Serializable]
 public abstract class CardEffect_WhenPlay : CardEffect
 {
     public abstract void OnWork(Individual player, Individual aim);

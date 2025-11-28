@@ -9,7 +9,6 @@ public class BattleManager : MonoBehaviour
     public CanvasGroup Canva;
     public void SetActive(bool b)
     {
-        Canva.alpha = b ? 1 : 0;
         Canva.interactable = b;
         Canva.blocksRaycasts = b;
     }
@@ -19,11 +18,15 @@ public class BattleManager : MonoBehaviour
     public Individual Mirror_ { get => Player_; }
 
     private CardList Deck;//卡组
+    private CardList Tomb;//墓地
 
     [SerializeField]
-    private Transform CardField_Player, CardField_Mirror;
+    private CommandArea PlayerHand, MirrorHand;
+
     [SerializeField]
     private GameObject CardOb;//卡片物体
+
+    private GameObject ob;
 
     public static BattleManager Instance { get; private set; }
 
@@ -38,6 +41,8 @@ public class BattleManager : MonoBehaviour
     {
         SetActive(true);
 
+        GameManager.Instance.Level_++;//轮次增加
+
         Player = new(20)
         {
             WhenDead = Failed
@@ -47,6 +52,7 @@ public class BattleManager : MonoBehaviour
             WhenDead = Win
         };
         Deck = GameManager.Instance.Deck_.Clone();
+        Tomb = new();
 
         TurnStart();
     }
@@ -56,10 +62,12 @@ public class BattleManager : MonoBehaviour
     {
         for(int i = 1; i <= 10; i++)
         {
-            DOTween.To(() => 0, x => { }, 0, 0.1f).OnComplete(() =>
+            DOTween.To(() => 0, x => { }, 0, 0.1f * i).OnComplete(() =>
             {
-                Instantiate(CardOb, CardField_Player);//生成卡片
-                //让卡片从卡组位置移动到对应位置并缩放
+                ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
+                Card card = ob.GetComponent<Card>();
+                card.Initialize(Deck.Draw());
+                PlayerHand.AddCard(card);//加入手牌区域
             });
         }
     }
@@ -73,7 +81,9 @@ public class BattleManager : MonoBehaviour
     //战斗胜利
     public void Win()
     {
-
+        SetActive(false);
+        ShopManager.Instance.Open();//展示商店
+        ShopManager.Instance.Init();
     }
     //战斗失败
     public void Failed()
