@@ -12,19 +12,22 @@ using UnityEngine;
 public class CardData : ScriptableObject
 {
     [SerializeField]
+    [LabelText("名字")]
     private string Name;
     public string Name_ { get => Name; }
 
     [SerializeField]
     [TextArea]
+    [LabelText("描述")]
     private string Description;
     public string Description_ { get => Description; }
 
-    //基本数据（攻击牌：伤害 防御牌：盾值 治疗牌：奶量）
+    //强度（攻击牌：伤害 防御牌：盾值 治疗牌：奶量）
     [SerializeField]
     [GUIColor("GetColor")]
-    private int Value;
-    public int Value_ { get => Value; }
+    [LabelText("强度")]
+    private int Strength;
+    public int Strength_ { get => Strength; }
     private Color GetColor()
     {
         switch (Type)
@@ -38,19 +41,24 @@ public class CardData : ScriptableObject
 
     //卡牌类型
     [SerializeField]
+    [LabelText("类型")]
     private CardType Type = CardType.攻击;
     public CardType Type_ { get => Type; }
 
     //稀有度
     [SerializeField]
+    [LabelText("稀有度")]
     private Rarity Rarity;
     public Rarity Rarity_ { get => Rarity; }
 
     [SerializeField]
+    [LabelText("卡图")]
     private Sprite Image;//图像
     public Sprite Image_ { get => Image; }
 
+    [Header("卡牌效果")]
     [SerializeReference]
+    [LabelText("打出时效果")]
     private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
 
     private const string PathRoot = "ScriptAssets/卡片数据/";
@@ -80,7 +88,7 @@ public class CardData : ScriptableObject
         CardData data = CreateInstance<CardData>();
         data.Name = temple.Name;
         data.Description = temple.Description;
-        data.Value = temple.Value;
+        data.Strength = temple.Strength;
         data.Type = temple.Type;
         data.Rarity = temple.Rarity;
         data.WhenPlayEffect = temple.WhenPlayEffect;
@@ -100,17 +108,17 @@ public class CardData : ScriptableObject
         {
             case CardType.攻击:
                 {
-                    aim.Hurt(Value);
+                    aim.Hurt(Strength);
                     break;
                 }
             case CardType.防御:
                 {
-                    aim.AddShield(Value);
+                    aim.AddShield(Strength);
                     break;
                 }
             case CardType.治疗:
                 {
-                    aim.Heal(Value);
+                    aim.Heal(Strength);
                     break;
                 }
         }
