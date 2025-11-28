@@ -18,3 +18,7 @@ MonoBehaviour:
   Type: 0
   Rarity: 0
   Image: {fileID: 0}
+  WhenPlayEffect: []
+  references:
+    version: 2
+    RefIds: []
