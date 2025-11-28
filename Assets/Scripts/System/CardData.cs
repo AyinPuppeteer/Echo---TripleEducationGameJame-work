@@ -49,7 +49,7 @@ public class CardData : ScriptableObject
     /// </summary>
     public static CardData Cloneby(string name)
     {
-        CardData temple = Resources.Load<CardData>(PathRoot + name + ".asset");
+        CardData temple = Resources.Load<CardData>(PathRoot + name);
         if (temple == null)
         {
             Debug.LogError($"未能找到该名称的卡片数据: {name}");
@@ -65,15 +65,13 @@ public class CardData : ScriptableObject
     /// </summary>
     public static CardData Cloneby(CardData temple)
     {
-        CardData data = new()
-        {
-            Name = temple.Name,
-            Description = temple.Description,
-            Value = temple.Value,
-            Type = temple.Type,
-            Rarity = temple.Rarity,
-            WhenPlayEffect = temple.WhenPlayEffect,
-        };
+        CardData data = CreateInstance<CardData>();
+        data.Name = temple.Name;
+        data.Description = temple.Description;
+        data.Value = temple.Value;
+        data.Type = temple.Type;
+        data.Rarity = temple.Rarity;
+        data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;
     }
     #endregion

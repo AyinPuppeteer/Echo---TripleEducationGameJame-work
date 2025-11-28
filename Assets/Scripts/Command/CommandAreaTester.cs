@@ -38,10 +38,12 @@ public class CommandAreaTester : MonoBehaviour
         if (card != null)
         {
             // 使用CardData.Cloneby方法创建卡牌数据
+            /*
             string[] testCardNames = { "攻击卡", "防御卡", "治疗卡", "特殊卡" };
             string cardName = testCardNames[index % testCardNames.Length] + " " + (index + 1);
+            */
 
-            CardData cardData = CardData.Cloneby(cardName);
+            CardData cardData = CardData.Cloneby("基础攻击");
             if (cardData != null)
             {
                 card.Initialize(cardData);

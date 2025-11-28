@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //管理单位/个体的脚本
-public class Individual : MonoBehaviour
+public class Individual
 {
     private int Health;
     public int Health_ { get => Health; }
@@ -19,7 +19,7 @@ public class Individual : MonoBehaviour
 
     public Action WhenDead;//死亡时效果
 
-    public Individual(int health)
+    public Individual(int health) : base()
     {
         Health = MaxHealth = health;
     }

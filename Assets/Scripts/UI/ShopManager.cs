@@ -17,12 +17,9 @@ public class ShopManager : MonoBehaviour
 
     public static ShopManager Instance { get; private set; }
 
-    private void Awkae()
+    private void Awake()
     {
         Instance = this;
-    }
-    private void Start()
-    {
         SetActive(false);
     }
 
