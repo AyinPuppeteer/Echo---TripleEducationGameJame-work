@@ -13,12 +13,15 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     [Header("UI组件")]
     [SerializeField] private Image cardImage;
+    [SerializeField] private GameObject cardBack; // 在Inspector中拖入卡背对象
+    [SerializeField] private TextMeshProUGUI sequenceText;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private CardDescription cardDescription;
 
     [Header("视觉效果")]
     [SerializeField] private float hoverScale = 1.1f;
     [SerializeField] private float dragAlpha = 0.7f;
+    [SerializeField] private float FlipDuration = 0.4f;
 
     [Header("动画设置")]
     [SerializeField] private float returnDuration = 0.3f;
@@ -281,7 +284,35 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         float totalDuration = (rippleLayerCount - 1) * delayStep + baseDuration + (rippleLayerCount - 1) * 0.1f + 0.2f;
         Destroy(rippleRoot, totalDuration);
     }
+    /// <summary>
+    /// 卡片翻转：根据参数决定正面或背面
+    /// </summary>
+    public void FlipCard(bool toBack = true)
+    {
+        float startY = transform.localEulerAngles.y % 360f;
+        float midY = toBack ? 90f : 90f;
+        float endY = toBack ? 180f : 0f;
 
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOLocalRotate(new Vector3(0, midY, 0), FlipDuration / 2).SetEase(Ease.InCubic))
+           .AppendCallback(() =>
+           {
+               if (toBack)
+               {
+                   if (cardBack != null) cardBack.SetActive(true);
+                   if (cardImage != null) cardImage.enabled = false;
+                   // 隐藏其它正面UI
+                   if (sequenceText != null) sequenceText.gameObject.SetActive(false); // 隐藏序列号
+               }
+               else
+               {
+                   if (cardBack != null) cardBack.SetActive(false);
+                   if (cardImage != null) cardImage.enabled = true;
+                   // 显示其它正面UI
+               }
+           })
+           .Append(transform.DOLocalRotate(new Vector3(0, endY, 0), FlipDuration / 2).SetEase(Ease.OutCubic));
+    }
 
     void OnDestroy()
     {
