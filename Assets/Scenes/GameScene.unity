@@ -160,7 +160,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 820, y: 0}
+  m_SizeDelta: {x: 620, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &61353923
 MonoBehaviour:
@@ -303,7 +303,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 180}
-  m_SizeDelta: {x: -100, y: 280}
+  m_SizeDelta: {x: -100, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103271187
 MonoBehaviour:
@@ -358,7 +358,7 @@ MonoBehaviour:
   maxCards: 10
   cardsPerLayer: 5
   layerSpacing: 150
-  cardSpacing: 120
+  cardSpacing: 180
   areaCenterOffset: {x: 0, y: 0}
   moveDuration: 0.3
   moveEase: 9
@@ -1309,7 +1309,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 0}
+  m_SizeDelta: {x: 1000, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1015340028
 MonoBehaviour:
@@ -1400,7 +1400,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 127
 --- !u!1 &1082780446
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,7 +2044,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -179.99997}
-  m_SizeDelta: {x: -100, y: 280}
+  m_SizeDelta: {x: -100, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424698842
 MonoBehaviour:
