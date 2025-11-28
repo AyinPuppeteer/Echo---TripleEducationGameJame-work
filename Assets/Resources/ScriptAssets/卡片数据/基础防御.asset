@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\u57FA\u7840\u653B\u51FB"
   Description: 
-  Value: 5
+  Strength: 6
   Type: 1
   Rarity: 0
   Image: {fileID: 0}
+  WhenPlayEffect: []
+  references:
+    version: 2
+    RefIds: []
