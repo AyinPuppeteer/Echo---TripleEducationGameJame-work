@@ -15,7 +15,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     [SerializeField] private Image cardImage;
     [SerializeField] private TextMeshProUGUI sequenceText;
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI valueText;
+    [SerializeField] private TextMeshProUGUI strengthText;
     [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("视觉效果")]
@@ -74,7 +74,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
 
         if (nameText != null) nameText.text = cardData.Name_;
-        if (valueText != null) valueText.text = cardData.Value_.ToString();
+        if (strengthText != null) strengthText.text = cardData.Strength_.ToString();
     }
 
     // 序列号管理
