@@ -21,6 +21,7 @@ public class CommandArea : MonoBehaviour
     private List<Card> commandSequence = new List<Card>();
     private Card currentlyDraggedCard;
     private Dictionary<Card, Tween> activeTweens = new Dictionary<Card, Tween>();
+    public List<Card> CommandSequence_ { get => commandSequence; }
 
     public void AddCard(Card card)
     {

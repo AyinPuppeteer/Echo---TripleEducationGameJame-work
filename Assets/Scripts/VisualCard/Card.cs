@@ -100,7 +100,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private string ToRoman(int number)
     {
         if (number < 1) return "";
-        if (number > 3999) return number.ToString(); // 超出范围直接显示数字
+        if (number > 10) return number.ToString(); // 超出范围直接显示数字
 
         var romanNumerals = new[]
         {
@@ -246,6 +246,60 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
         transform.localPosition = target;
         transform.localScale = Vector3.one;
+    }
+
+    public void PlayAppearAnimation()
+    {
+        // 初始状态
+        transform.localScale = Vector3.one * 0.1f;
+        if (canvasGroup != null)
+            canvasGroup.alpha = 0f;
+
+        // 动画：缩放和透明度
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack));
+        if (canvasGroup != null)
+            seq.Join(canvasGroup.DOFade(1f, 0.3f));
+    }
+
+    public void PlayRippleEffect()
+    {
+        // 尝试查找已有的波纹对象，否则动态创建
+        string rippleName = "RippleEffect";
+        Transform ripple = transform.Find(rippleName);
+        Image rippleImage = null;
+
+        if (ripple == null)
+        {
+            // 创建GameObject
+            GameObject go = new GameObject(rippleName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            go.transform.SetParent(transform, false);
+            go.transform.SetAsFirstSibling(); // 保证在卡牌下方
+
+            ripple = go.transform;
+            rippleImage = go.GetComponent<Image>();
+            // 你可以替换为自己的波纹Sprite
+            rippleImage.color = new Color(1, 1, 1, 0.5f);
+            rippleImage.raycastTarget = false;
+            // 建议设置为圆形Sprite
+            // rippleImage.sprite = Resources.Load<Sprite>("你的波纹图片路径");
+            // 设置合适的尺寸
+            (ripple as RectTransform).sizeDelta = new Vector2(200, 200);
+        }
+        else
+        {
+            rippleImage = ripple.GetComponent<Image>();
+        }
+
+        // 初始状态
+        ripple.localScale = Vector3.zero;
+        rippleImage.color = new Color(1, 1, 1, 0.5f);
+
+        // 动画：扩散+淡出
+        Sequence seq = DOTween.Sequence();
+        seq.Append(ripple.DOScale(1.5f, 0.6f).SetEase(Ease.OutCubic));
+        seq.Join(rippleImage.DOFade(0f, 0.6f));
+        seq.OnComplete(() => ripple.localScale = Vector3.zero); // 动画结束隐藏
     }
 
     void OnDestroy()
