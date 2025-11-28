@@ -8,7 +8,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("卡牌数据")]
-    [SerializeField] private CardData cardData;
+    private CardData cardData;
 
     [Header("UI组件")]
     [SerializeField] private Image cardImage;

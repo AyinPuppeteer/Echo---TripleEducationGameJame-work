@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //管理商店UI的脚本
 public class ShopManager : MonoBehaviour
 {
-    public CanvasGroup Canva;
-    public void SetActive(bool b)
-    {
-        Canva.alpha = b ? 1 : 0;
-        Canva.interactable = b;
-        Canva.blocksRaycasts = b;
-    }
+    [SerializeField]
+    private CanvasGroup Canva;
+
+    [SerializeField]
+    private Animator Anim;
+
+    [SerializeField]
+    private Image BlackImage;
 
     private GameObject ob;
 
@@ -20,11 +22,27 @@ public class ShopManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        SetActive(false);
+        Close();
+        SetActive(-1);
     }
 
     public void Init()
     {
         
+    }
+
+    public void Open()
+    {
+        Anim.SetBool("IsShow", true);
+    }
+    public void Close()
+    {
+        Anim.SetBool("IsShow", false);
+    }
+
+    private void SetActive(int t)
+    {
+        Canva.interactable = t == 1;
+        Canva.blocksRaycasts = t == 1;
     }
 }

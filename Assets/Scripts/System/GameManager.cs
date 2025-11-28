@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
     private CardList Deck = new();//牌库
     public CardList Deck_ { get => Deck; }
 
-    private int Turn;//第几次战斗
-    public int Turn_ { get => Turn; }
+    private int Level;//第几次战斗
+    public int Level_ { get => Level; set => Level = value; }
 
     private float Luckiness;//幸运（影响商店刷新物品的质量）
     public float Luckiness_ { get => Luckiness; }
@@ -67,5 +67,6 @@ public class GameManager : MonoBehaviour
     public void Init(CardList basedeck)//basecard表示初始卡组
     {
         Deck = basedeck;
+        Level = 0;
     }
 }
