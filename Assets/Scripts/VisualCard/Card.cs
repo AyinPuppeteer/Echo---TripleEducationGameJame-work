@@ -262,45 +262,62 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
             seq.Join(canvasGroup.DOFade(1f, 0.3f));
     }
 
-    public void PlayRippleEffect()
+    public void PlayRippleEffect(int rippleLayerCount = 3)
     {
-        // 尝试查找已有的波纹对象，否则动态创建
-        string rippleName = "RippleEffect";
-        Transform ripple = transform.Find(rippleName);
-        Image rippleImage = null;
+        // 父对象：每次都新建，允许多个同时存在
+        string rippleRootName = "RippleEffectRoot";
+        GameObject rippleRoot = new GameObject(rippleRootName, typeof(RectTransform));
+        rippleRoot.transform.SetParent(transform, false);
+        rippleRoot.transform.SetAsFirstSibling();
 
-        if (ripple == null)
+        RectTransform rootRect = rippleRoot.GetComponent<RectTransform>();
+        rootRect.anchorMin = Vector2.one * 0.5f;
+        rootRect.anchorMax = Vector2.one * 0.5f;
+        rootRect.anchoredPosition = Vector2.zero;
+        rootRect.sizeDelta = Vector2.zero;
+
+        float baseDuration = 0.6f;
+        float baseScale = 1.0f; // 控制最大扩散比例
+        float baseAlpha = 0.6f; // 更明显
+        float baseSize = 200f;
+        float delayStep = 0.08f;
+        float scaleStep = 0.15f; // 层间距更大
+
+        for (int i = 0; i < rippleLayerCount; i++)
         {
-            // 创建GameObject
-            GameObject go = new GameObject(rippleName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-            go.transform.SetParent(transform, false);
-            go.transform.SetAsFirstSibling(); // 保证在卡牌下方
+            GameObject ripple = new GameObject("RippleLayer", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            ripple.transform.SetParent(rippleRoot.transform, false);
 
-            ripple = go.transform;
-            rippleImage = go.GetComponent<Image>();
-            // 你可以替换为自己的波纹Sprite
-            rippleImage.color = new Color(1, 1, 1, 0.5f);
+            RectTransform rippleRect = ripple.GetComponent<RectTransform>();
+            rippleRect.sizeDelta = new Vector2(baseSize, baseSize) * (1f + i * scaleStep);
+
+            Image rippleImage = ripple.GetComponent<Image>();
+            rippleImage.color = new Color(1, 1, 1, baseAlpha / (1f + i * 0.5f)); // 递减更慢
             rippleImage.raycastTarget = false;
-            // 建议设置为圆形Sprite
+            // 可替换为你的圆形Sprite
             // rippleImage.sprite = Resources.Load<Sprite>("你的波纹图片路径");
-            // 设置合适的尺寸
-            (ripple as RectTransform).sizeDelta = new Vector2(200, 200);
-        }
-        else
-        {
-            rippleImage = ripple.GetComponent<Image>();
+
+            ripple.transform.localScale = Vector3.zero;
+
+            float delay = i * delayStep;
+            float duration = baseDuration + i * 0.1f;
+            float targetScale = baseScale + i * scaleStep;
+
+            Sequence seq = DOTween.Sequence();
+            seq.AppendInterval(delay);
+            seq.Append(ripple.transform.DOScale(targetScale, duration).SetEase(Ease.OutCubic));
+            seq.Join(rippleImage.DOFade(0f, duration));
+            seq.OnComplete(() => Destroy(ripple));
+
+            // 每层动画结束后立即销毁
+            Destroy(ripple, delay + duration + 0.1f);
         }
 
-        // 初始状态
-        ripple.localScale = Vector3.zero;
-        rippleImage.color = new Color(1, 1, 1, 0.5f);
-
-        // 动画：扩散+淡出
-        Sequence seq = DOTween.Sequence();
-        seq.Append(ripple.DOScale(1.5f, 0.6f).SetEase(Ease.OutCubic));
-        seq.Join(rippleImage.DOFade(0f, 0.6f));
-        seq.OnComplete(() => ripple.localScale = Vector3.zero); // 动画结束隐藏
+        // 父对象销毁时机：最后一层动画结束后再销毁
+        float totalDuration = (rippleLayerCount - 1) * delayStep + baseDuration + (rippleLayerCount - 1) * 0.1f + 0.2f;
+        Destroy(rippleRoot, totalDuration);
     }
+
 
     void OnDestroy()
     {
