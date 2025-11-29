@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 237000241}
   - component: {fileID: 237000243}
   - component: {fileID: 237000242}
+  - component: {fileID: 237000244}
   m_Layer: 3
   m_Name: "\u955C\u50CF"
   m_TagString: Untagged
@@ -473,9 +474,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 0, y: -205.00003}
   m_SizeDelta: {x: 240, y: 330}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &237000242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +515,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237000240}
   m_CullTransparentMesh: 1
+--- !u!114 &237000244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237000240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b0317cb2d31f140a4fe3174251a0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: {fileID: 912751794}
 --- !u!1 &240249516
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,6 +1007,7 @@ GameObject:
   - component: {fileID: 912751791}
   - component: {fileID: 912751793}
   - component: {fileID: 912751792}
+  - component: {fileID: 912751794}
   m_Layer: 3
   m_Name: "\u73A9\u5BB6\u672C\u4F53"
   m_TagString: Untagged
@@ -1016,9 +1031,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 40}
+  m_AnchoredPosition: {x: 0, y: 205.00003}
   m_SizeDelta: {x: 240, y: 330}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912751792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,6 +1072,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912751790}
   m_CullTransparentMesh: 1
+--- !u!114 &912751794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912751790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b0317cb2d31f140a4fe3174251a0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: {fileID: 237000244}
 --- !u!1 &941306362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,7 +1714,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 127
 --- !u!223 &1349897620
 Canvas:
   m_ObjectHideFlags: 0
@@ -1744,9 +1772,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canva: {fileID: 1349897623}
+  Player: {fileID: 912751794}
+  Mirror: {fileID: 237000244}
   PlayerHand: {fileID: 103271189}
   MirrorHand: {fileID: 1424698844}
   CardOb: {fileID: 9216081144180320527, guid: d06c79ccf3959864eae331735ab1b92a, type: 3}
+  NumberOb: {fileID: 2350738575648047255, guid: a69e3e967e1c8ec4e9826ffa32f4e248, type: 3}
 --- !u!225 &1349897623
 CanvasGroup:
   m_ObjectHideFlags: 0

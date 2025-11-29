@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //管理单位/个体的脚本
-public class Individual
+public class Individual : MonoBehaviour
 {
     private int Health;
     public int Health_ { get => Health; }
@@ -13,11 +13,12 @@ public class Individual
 
     private int Shield;//护盾值
     public int Shield_ { get => Shield; }
-    public void AddShield(int shield) => Shield += shield;
 
-    public Individual Enemy;//敌对单位
+    [SerializeField]
+    private Individual Enemy;//敌对单位
+    public Individual Enemy_ { get => Enemy; }
 
-    public Individual(int health) : base()
+    public void SetHealth(int health)
     {
         Health = MaxHealth = health;
     }
@@ -38,7 +39,14 @@ public class Individual
             }
         }
         Health -= damage;
+        BattleManager.Instance.SummonNumber(damage, Color.red, transform.position);
         return damage;
+    }
+
+    public void AddShield(int shield)
+    {
+        Shield += shield;
+        BattleManager.Instance.SummonNumber(shield, new(0, 0.4f, 0.7f), transform.position);
     }
 
     public int Heal(int heal)
@@ -52,6 +60,7 @@ public class Individual
         {
             Health += heal;
         }
+        BattleManager.Instance.SummonNumber(heal, Color.green, transform.position);
         return heal;
     }
 }

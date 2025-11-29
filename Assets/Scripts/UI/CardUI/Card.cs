@@ -208,7 +208,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void Play(Individual Player)
     {
-        if (cardData.Type_ == CardType.攻击) cardData.WhenPlay(Player, Player.Enemy);
+        if (cardData.Type_ == CardType.攻击) cardData.WhenPlay(Player, Player.Enemy_);
         else cardData.WhenPlay(Player, Player);
 
         FlipCard(2);

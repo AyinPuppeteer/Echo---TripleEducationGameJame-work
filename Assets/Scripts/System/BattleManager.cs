@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 //管理战斗的脚本
@@ -14,6 +13,7 @@ public class BattleManager : MonoBehaviour
         Canva.blocksRaycasts = b;
     }
 
+    [SerializeField]
     private Individual Player, Mirror;//玩家和镜像单位
     public Individual Player_ { get => Player; }
     public Individual Mirror_ { get => Player_; }
@@ -77,10 +77,8 @@ public class BattleManager : MonoBehaviour
 
         GameManager.Instance.Level_++;//关卡数增加
 
-        Player = new(30);
-        Mirror = new(30);
-        Player.Enemy = Mirror;
-        Mirror.Enemy = Player;
+        Player.SetHealth(30);
+        Mirror.SetHealth(30);
 
         Deck = GameManager.Instance.Deck_.Clone();
         Tomb = new();
@@ -166,6 +164,11 @@ public class BattleManager : MonoBehaviour
     {
         CardPlaying = true;
         EchoList.Clear();
+
+        foreach(var card in PlayerHand.CommandSequence_)
+        {
+            card.SetInteractable(false);
+        }
     }
 
     //战斗胜利
@@ -180,4 +183,15 @@ public class BattleManager : MonoBehaviour
     {
 
     }
+
+    #region 生成数字特效
+    [SerializeField]
+    private GameObject NumberOb;//数字物体
+
+    public void SummonNumber(int num, Color c, Vector3 pos)
+    {
+        ob = Instantiate(NumberOb, pos, Quaternion.identity, transform);
+        ob.GetComponent<NumberText>().Init(num, c);
+    }
+    #endregion
 }
