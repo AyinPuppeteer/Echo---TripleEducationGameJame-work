@@ -77,14 +77,11 @@ public class BattleManager : MonoBehaviour
 
         GameManager.Instance.Level_++;//关卡数增加
 
-        Player = new(30)
-        {
-            Enemy = Mirror
-        };
-        Mirror = new(30)
-        {
-            Enemy = Player
-        };
+        Player = new(30);
+        Mirror = new(30);
+        Player.Enemy = Mirror;
+        Mirror.Enemy = Player;
+
         Deck = GameManager.Instance.Deck_.Clone();
         Tomb = new();
 
@@ -151,21 +148,13 @@ public class BattleManager : MonoBehaviour
                     if(PlayerHand.CommandSequence_.Count >= CardIndex)
                     {
                         Card card = PlayerHand.CommandSequence_[CardIndex - 1];
-                        if (Player.Health_ > 0)//血量大于0则使用卡
-                        {
-                            if (card.CardData.Type_ == CardType.攻击) card.CardData.WhenPlay(Player, Mirror);
-                            else card.CardData.WhenPlay(Player, Player);
-                        }
+                        if (Player.Health_ > 0) card.Play(Player);//血量大于0则使用卡
                         Echo(card.CardData);//回响序列添加
                     }
                     if (MirrorHand.CommandSequence_.Count >= CardIndex)
                     {
                         Card card = MirrorHand.CommandSequence_[CardIndex - 1];
-                        if (Mirror.Health_ > 0)//血量大于0则使用卡
-                        {
-                            if (card.CardData.Type_ == CardType.攻击) card.CardData.WhenPlay(Mirror, Player);
-                            else card.CardData.WhenPlay(Mirror, Mirror);
-                        }
+                        if (Mirror.Health_ > 0) card.Play(Mirror);//血量大于0则使用卡
                     }
                 }
             }

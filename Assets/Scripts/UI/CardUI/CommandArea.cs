@@ -41,7 +41,6 @@ public class CommandArea : MonoBehaviour
             // 立即设置位置，不使用动画
             Vector3 targetPosition = GetCardPosition(commandSequence.Count - 1);
             card.transform.localPosition = targetPosition;
-            card.SetSequenceIndex(commandSequence.Count - 1);
 
             //Debug.Log($"卡牌添加到指令区，当前序列位置: {commandSequence.Count - 1}");
         }
@@ -115,10 +114,6 @@ public class CommandArea : MonoBehaviour
 
         // 卡牌B移动到卡牌A的位置
         swapSequence.Join(cardB.transform.DOLocalMove(posA, moveDuration).SetEase(moveEase));
-
-        // 更新序列号
-        cardA.SetSequenceIndex(indexB);
-        cardB.SetSequenceIndex(indexA);
 
         //Debug.Log($"交换卡牌 {cardA.GetCardName()} 和 {cardB.GetCardName()}，位置 {indexA} 和 {indexB}");
     }
@@ -237,7 +232,6 @@ public class CommandArea : MonoBehaviour
 
                 Vector3 position = GetCardPosition(i);
                 AnimateCardToPosition(card, position, moveDuration);
-                card.SetSequenceIndex(i);
             }
         }
     }
@@ -351,7 +345,6 @@ public class CommandArea : MonoBehaviour
                 card.transform.localPosition = position;
                 card.transform.localRotation = Quaternion.identity;
                 card.transform.localScale = Vector3.one;
-                card.SetSequenceIndex(i);
             }
         }
     }

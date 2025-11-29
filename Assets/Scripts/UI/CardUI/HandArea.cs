@@ -40,7 +40,6 @@ public class HandArea : MonoBehaviour
                 handCards[i].transform.localScale = Vector3.one * 0.8f;
 
                 // 手牌区不显示序列号
-                handCards[i].SetSequenceIndex(-1);
                 handCards[i].SetInCommandArea(false);
             }
         }

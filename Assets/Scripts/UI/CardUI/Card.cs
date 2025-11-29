@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointerExitHandler,
     IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -12,9 +13,12 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private CardData cardData;
 
     [Header("UI组件")]
+    [LabelText("卡图")]
     [SerializeField] private Image cardImage;
-    [SerializeField] private GameObject cardBack; // 在Inspector中拖入卡背对象
-    [SerializeField] private TextMeshProUGUI sequenceText;
+    [LabelText("卡框")]
+    [SerializeField] private Image cardFrame;
+    [LabelText("卡背")]
+    [SerializeField] private Image cardBack; 
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private CardDescription cardDescription;
 
@@ -32,9 +36,9 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private bool isDragging = false;
     private Vector3 originalPosition;
     private Transform originalParent;
-    private int sequenceIndex = -1;
     private bool isInCommandArea = false;
-    private bool isInteractable = true; // 新增：交互控制
+    private bool isInteractable = true; //是否可交互
+    private bool IsBackOver;//是否反面朝上
 
     public CardData CardData => cardData;
     public bool IsInteractable => isInteractable; // 接口实现
@@ -74,22 +78,13 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
     }
 
-    // 序列号管理
-    public void SetSequenceIndex(int index)
-    {
-        if (sequenceIndex != index)
-        {
-            sequenceIndex = index;
-        }
-    }
-
     // 区域状态
     public void SetInCommandArea(bool inCommandArea)
     {
         isInCommandArea = inCommandArea;
     }
 
-    // 鼠标交互
+    #region 鼠标交互
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isInteractable || isDragging) return;
@@ -171,6 +166,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
         return null;
     }
+    #endregion
 
     public void ReturnToOriginalPosition()
     {
@@ -210,6 +206,15 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         transform.localScale = Vector3.one;
     }
 
+    public void Play(Individual Player)
+    {
+        if (cardData.Type_ == CardType.攻击) cardData.WhenPlay(Player, Player.Enemy);
+        else cardData.WhenPlay(Player, Player);
+
+        FlipCard(2);
+    }
+
+    #region 动画效果
     public void PlayAppearAnimation()
     {
         // 初始状态
@@ -287,32 +292,33 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     /// <summary>
     /// 卡片翻转：根据参数决定正面或背面
     /// </summary>
-    public void FlipCard(bool toBack = true)
+    /// <param name="fliptimes">翻转次数</param>
+    public void FlipCard(int fliptimes = 1)
     {
-        float startY = transform.localEulerAngles.y % 360f;
-        float midY = toBack ? 90f : 90f;
-        float endY = toBack ? 180f : 0f;
-
         Sequence seq = DOTween.Sequence();
-        seq.Append(transform.DOLocalRotate(new Vector3(0, midY, 0), FlipDuration / 2).SetEase(Ease.InCubic))
+        for (int i = 1; i <= fliptimes; i++)
+        {
+            seq.Append(transform.DOLocalRotate(new Vector3(0, 90f, 0), FlipDuration / 2).SetEase(Ease.InCubic))
            .AppendCallback(() =>
            {
-               if (toBack)
+               if (IsBackOver)
                {
-                   if (cardBack != null) cardBack.SetActive(true);
-                   if (cardImage != null) cardImage.enabled = false;
-                   // 隐藏其它正面UI
-                   if (sequenceText != null) sequenceText.gameObject.SetActive(false); // 隐藏序列号
+                   IsBackOver = false;
+                   if (cardBack != null) cardBack.enabled = false;
+                   if (cardImage != null) cardImage.enabled = true;
+                   if (cardFrame != null) cardFrame.enabled = true;
                }
                else
                {
-                   if (cardBack != null) cardBack.SetActive(false);
-                   if (cardImage != null) cardImage.enabled = true;
-                   // 显示其它正面UI
+                   IsBackOver = true;
+                   if (cardBack != null) cardBack.enabled = true;
+                   if (cardImage != null) cardImage.enabled = false;
+                   if (cardFrame != null) cardFrame.enabled = false;
                }
-           })
-           .Append(transform.DOLocalRotate(new Vector3(0, endY, 0), FlipDuration / 2).SetEase(Ease.OutCubic));
+           }).Append(transform.DOLocalRotate(new Vector3(0, 0f, 0), FlipDuration / 2).SetEase(Ease.OutCubic));
+        }
     }
+    #endregion
 
     void OnDestroy()
     {
