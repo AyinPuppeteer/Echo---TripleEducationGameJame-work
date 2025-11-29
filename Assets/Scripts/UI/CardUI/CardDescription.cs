@@ -19,6 +19,13 @@ public class CardDescription : MonoBehaviour
     [SerializeField]
     private Canvas DescriptionCanvas;
 
+    [SerializeField]
+    private Transform AbilityTextField;//能力解释文本区域
+    [SerializeField]
+    private GameObject AbilityTextOb;//能力解释物体
+
+    private GameObject ob;
+
     private void Awake()
     {
         Card = GetComponent<Card>();
@@ -29,6 +36,7 @@ public class CardDescription : MonoBehaviour
     private void Start()
     {
         Name.text = Data.Name_;
+        Description.text = "";
 
         string s = Data.Description_;
         int l = 0;
@@ -38,17 +46,20 @@ public class CardDescription : MonoBehaviour
             {
                 string keyword = "";
                 int r = l - 1;
-                while (r < s.Length && s[++r] != '$')
+                while (++r < s.Length && s[r] != '$')
                 {
                     if (s[r] < '0' || s[r] > '9') keyword += s[r];
                 }
                 AbilityPack ap = AbilityDictionary.Find(keyword);
                 if (ap != null)
                 {
-                    Description.text += $"<color={ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[l..r]}</color>";
+                    Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[l..r]}</color>";
+
                     //生成能力描述
+                    ob = Instantiate(AbilityTextOb, AbilityTextField);
+                    ob.GetComponent<AbilityText>().SetData(ap);
                 }
-                l = r;
+                l = r + 1;
             }
             else Description.text += s[l];
         }
@@ -62,8 +73,16 @@ public class CardDescription : MonoBehaviour
 
         if (b)
         {
-            if(transform.position.x >= 4) DescriptionCanvas.GetComponent<RectTransform>().anchoredPosition = new(-390, 0);
-            else DescriptionCanvas.GetComponent<RectTransform>().anchoredPosition = new(10, 0);
+            if(transform.position.x >= 4)
+            {
+                DescriptionCanvas.GetComponent<RectTransform>().anchoredPosition = new(-390, 0);
+                AbilityTextField.GetComponent<RectTransform>().anchoredPosition = new(-510, 0);
+            }
+            else
+            {
+                DescriptionCanvas.GetComponent<RectTransform>().anchoredPosition = new(10, 0);
+                AbilityTextField.GetComponent<RectTransform>().anchoredPosition = new(10, 0);
+            }
         }
     }
 }

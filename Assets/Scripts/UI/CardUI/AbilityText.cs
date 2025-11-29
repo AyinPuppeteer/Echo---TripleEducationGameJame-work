@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class AbilityText : MonoBehaviour
 {
+    [SerializeField]
     private TextMeshProUGUI Name;
+    [SerializeField]
     private TextMeshProUGUI Text;
 
     public void SetData(AbilityPack ability)

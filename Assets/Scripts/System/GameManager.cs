@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     private int Level;//第几次战斗
     public int Level_ { get => Level; set => Level = value; }
 
+    private bool IsBattle;//是否处于战斗中
+
     private float Luckiness;//幸运（影响商店刷新物品的质量）
     public float Luckiness_ { get => Luckiness; }
 
@@ -56,7 +58,8 @@ public class GameManager : MonoBehaviour
             "基础防御",
             "基础防御",
             "基础治疗",
-            "基础治疗"
+            "基础治疗",
+            "重型防护"
         };
         Init(basedeck);
 
@@ -68,5 +71,16 @@ public class GameManager : MonoBehaviour
     {
         Deck = basedeck;
         Level = 0;
+    }
+
+    public void SaveGame()
+    {
+        GameSave.Instance.data.GamePack_ = new()
+        {
+            Cards = Deck.GetNameList(),
+            IsBattle = IsBattle,
+            Level = Level,
+        };
+        GameSave.Instance.SaveData();
     }
 }

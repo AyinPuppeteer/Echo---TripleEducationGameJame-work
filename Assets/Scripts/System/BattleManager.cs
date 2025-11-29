@@ -177,6 +177,8 @@ public class BattleManager : MonoBehaviour
         SetActive(false);
         ShopManager.Instance.Open();//展示商店
         ShopManager.Instance.Init();
+
+        GameManager.Instance.SaveGame();
     }
     //战斗失败
     public void Failed()

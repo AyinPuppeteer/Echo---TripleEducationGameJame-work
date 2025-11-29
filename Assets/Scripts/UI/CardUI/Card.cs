@@ -64,7 +64,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         if (canvasGroup != null)
         {
             canvasGroup.blocksRaycasts = interactable;
-            canvasGroup.alpha = interactable ? 1f : 0.5f;
+            canvasGroup.interactable = interactable;
         }
     }
 

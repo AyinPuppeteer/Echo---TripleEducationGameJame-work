@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //管理卡片列表的脚本（例如牌组、墓地等)
@@ -56,4 +57,6 @@ public class CardList : IEnumerable<CardData>
     }
 
     public void Clear() => Cards.Clear();
+
+    public List<string> GetNameList() => Cards.Select(card => card.Name_).ToList();
 }
