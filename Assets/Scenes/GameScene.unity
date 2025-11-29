@@ -2099,7 +2099,7 @@ MonoBehaviour:
   maxCards: 10
   cardsPerLayer: 5
   layerSpacing: 150
-  cardSpacing: 120
+  cardSpacing: 180
   areaCenterOffset: {x: 0, y: 0}
   moveDuration: 0.3
   moveEase: 9
