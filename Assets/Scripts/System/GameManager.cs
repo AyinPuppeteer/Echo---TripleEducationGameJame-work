@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CoinText.text = CoinText.ToString();
+        CoinText.text = Coin.ToString();
         LevelText.text = $"µÚ{Level}´Î¿¼Ñé";
     }
 
