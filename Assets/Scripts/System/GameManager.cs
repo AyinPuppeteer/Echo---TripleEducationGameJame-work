@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//¹ÜÀíÓÎÏ·½ø³ÌµÄ½Å±¾
+//ç®¡ç†æ¸¸æˆè¿›ç¨‹çš„è„šæœ¬
 public class GameManager : MonoBehaviour
 {
-    #region »õ±Ò
+    #region è´§å¸
     private int Coin;
     public int Coin_ { get => Coin; }
 
@@ -17,22 +17,22 @@ public class GameManager : MonoBehaviour
     {
         if(delta > Coin)
         {
-            Debug.LogError("Ã»ÓĞÕâÃ´¶à»õ±Ò£¡");
+            Debug.LogError("æ²¡æœ‰è¿™ä¹ˆå¤šè´§å¸ï¼");
             return;
         }
         Coin -= delta;
     }
     #endregion
 
-    private CardList Deck = new();//ÅÆ¿â
+    private CardList Deck = new();//ç‰Œåº“
     public CardList Deck_ { get => Deck; }
 
-    private int Level;//µÚ¼¸´ÎÕ½¶·
+    private int Level;//ç¬¬å‡ æ¬¡æˆ˜æ–—
     public int Level_ { get => Level; set => Level = value; }
 
-    private bool IsBattle;//ÊÇ·ñ´¦ÓÚÕ½¶·ÖĞ
+    private bool IsBattle;//æ˜¯å¦å¤„äºæˆ˜æ–—ä¸­
 
-    private float Luckiness;//ĞÒÔË£¨Ó°ÏìÉÌµêË¢ĞÂÎïÆ·µÄÖÊÁ¿£©
+    private float Luckiness;//å¹¸è¿ï¼ˆå½±å“å•†åº—åˆ·æ–°ç‰©å“çš„è´¨é‡ï¼‰
     public float Luckiness_ { get => Luckiness; }
 
     public static GameManager Instance { get; private set; }
@@ -46,28 +46,28 @@ public class GameManager : MonoBehaviour
     {
         CardList basedeck = new()
         {
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡ÖÎÁÆ",
-            "»ù´¡ÖÎÁÆ",
-            "ÖØĞÍ·À»¤"
+            "é­”é•œ",
+            "éŸ³æ³¢æ‰“å‡»",
+            "é—ªé¿",
+            "åŸºç¡€æ”»å‡»",
+            "åŸºç¡€æ”»å‡»",
+            "åŸºç¡€æ”»å‡»",
+            "åŸºç¡€æ”»å‡»",
+            "åŸºç¡€é˜²å¾¡",
+            "åŸºç¡€é˜²å¾¡",
+            "åŸºç¡€é˜²å¾¡",
+            "åŸºç¡€é˜²å¾¡",
+            "åŸºç¡€æ²»ç–—",
+            "åŸºç¡€æ²»ç–—",
+            "é‡å‹æŠ¤ç›¾"
         };
         Init(basedeck);
 
         BattleManager.Instance.BattleStart();
     }
 
-    //³õÊ¼»¯
-    public void Init(CardList basedeck)//basecard±íÊ¾³õÊ¼¿¨×é
+    //åˆå§‹åŒ–
+    public void Init(CardList basedeck)//basecardè¡¨ç¤ºåˆå§‹å¡ç»„
     {
         Deck = basedeck;
         Level = 0;
