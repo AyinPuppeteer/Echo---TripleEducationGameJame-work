@@ -11,6 +11,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 {
     [Header("卡牌数据")]
     private CardData cardData;
+    public CardData CardData { get => cardData; }
 
     [Header("UI组件")]
     [LabelText("卡图")]
@@ -38,11 +39,12 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private bool isDragging = false;
     private Vector3 originalPosition;
     private Transform originalParent;
-    private bool isInCommandArea = false;
     private bool isInteractable = true; //是否可交互
     private bool IsBackOver;//是否反面朝上
 
-    public CardData CardData => cardData;
+    private int Index;//序列号（玩家卡牌为0~9，镜像为10~19）
+    public int Index_ { get => Index; set => Index = value; }
+
     public bool IsInteractable => isInteractable; // 接口实现
 
     private void Start()
@@ -54,6 +56,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     public void Initialize(CardData data)
     {
         cardData = data;
+        data.VisualCard_ = this;
         UpdateCardAppearance();
     }
 
@@ -78,12 +81,6 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         {
             cardImage.sprite = cardData.Image_;
         }
-    }
-
-    // 区域状态
-    public void SetInCommandArea(bool inCommandArea)
-    {
-        isInCommandArea = inCommandArea;
     }
 
     #region 鼠标交互

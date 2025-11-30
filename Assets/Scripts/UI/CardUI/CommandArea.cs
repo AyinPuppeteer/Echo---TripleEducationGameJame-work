@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class CommandArea : MonoBehaviour
 {
@@ -18,9 +19,12 @@ public class CommandArea : MonoBehaviour
     [Header("布局方向设置")]
     [SerializeField] private bool isBottomFirstRow = false; // 新增：是否下层为第一行
 
-    private List<Card> commandSequence = new List<Card>();
+    [LabelText("是否为镜像")]
+    [SerializeField] private bool IsMirror;//是否为镜像
+
+    private List<Card> commandSequence = new();
     private Card currentlyDraggedCard;
-    private Dictionary<Card, Tween> activeTweens = new Dictionary<Card, Tween>();
+    private Dictionary<Card, Tween> activeTweens = new();
     public List<Card> CommandSequence_ { get => commandSequence; }
 
     public void AddCard(Card card)
@@ -36,19 +40,17 @@ public class CommandArea : MonoBehaviour
         {
             commandSequence.Add(card);
             card.transform.SetParent(transform);
-            card.SetInCommandArea(true);
+            card.Index_ = commandSequence.Count + (IsMirror ? 9 : -1);
 
             // 立即设置位置，不使用动画
             Vector3 targetPosition = GetCardPosition(commandSequence.Count - 1);
             card.transform.localPosition = targetPosition;
-
-            //Debug.Log($"卡牌添加到指令区，当前序列位置: {commandSequence.Count - 1}");
         }
     }
 
     public List<Card> GetCurrentSequence()
     {
-        return new List<Card>(commandSequence);
+        return new(commandSequence);
     }
 
     public void HandleCardDrop(Card card, Vector3 dropPosition)
@@ -95,8 +97,7 @@ public class CommandArea : MonoBehaviour
         Card cardA = commandSequence[indexA];
         Card cardB = commandSequence[indexB];
 
-        if (cardA == null || cardB == null)
-            return;
+        if (cardA == null || cardB == null) return;
 
         // 交换序列中的位置
         commandSequence[indexA] = cardB;
@@ -115,7 +116,8 @@ public class CommandArea : MonoBehaviour
         // 卡牌B移动到卡牌A的位置
         swapSequence.Join(cardB.transform.DOLocalMove(posA, moveDuration).SetEase(moveEase));
 
-        //Debug.Log($"交换卡牌 {cardA.GetCardName()} 和 {cardB.GetCardName()}，位置 {indexA} 和 {indexB}");
+        cardA.Index_ = indexB;
+        cardB.Index_ = indexA;
     }
 
     // 在拖拽过程中处理卡牌位置预览
@@ -315,15 +317,9 @@ public class CommandArea : MonoBehaviour
         // 停止所有动画
         foreach (var tween in activeTweens.Values)
         {
-            if (tween != null && tween.IsActive())
-                tween.Kill();
+            if (tween != null && tween.IsActive()) tween.Kill();
         }
         activeTweens.Clear();
-
-        foreach (Card card in commandSequence)
-        {
-            card.SetInCommandArea(false);
-        }
         commandSequence.Clear();
     }
 
