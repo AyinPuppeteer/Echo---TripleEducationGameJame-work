@@ -71,6 +71,12 @@ public class GameManager : MonoBehaviour
         BattleManager.Instance.BattleStart();
     }
 
+    private void Update()
+    {
+        CoinText.text = CoinText.ToString();
+        LevelText.text = $"第{Level}次考验";
+    }
+
     //初始化
     public void Init(CardList basedeck)//basecard表示初始卡组
     {

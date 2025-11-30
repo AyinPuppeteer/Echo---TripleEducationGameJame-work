@@ -18,6 +18,9 @@ public class Individual : MonoBehaviour
     private Individual Enemy;//敌对单位
     public Individual Enemy_ { get => Enemy; }
 
+    private readonly List<Buff> Buffs = new();//挂载的Buff列表
+    public List<Buff> Buffs_ { get => Buffs; }
+
     public void SetHealth(int health)
     {
         Health = MaxHealth = health;
