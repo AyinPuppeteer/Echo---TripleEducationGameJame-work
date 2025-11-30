@@ -38,9 +38,6 @@ public class HandArea : MonoBehaviour
                 handCards[i].transform.localPosition = position;
                 handCards[i].transform.localRotation = rotation;
                 handCards[i].transform.localScale = Vector3.one * 0.8f;
-
-                // 手牌区不显示序列号
-                handCards[i].SetInCommandArea(false);
             }
         }
     }

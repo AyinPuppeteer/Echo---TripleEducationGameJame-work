@@ -56,6 +56,9 @@ public class CardData : ScriptableObject
     private Sprite Image;//图像
     public Sprite Image_ { get => Image; }
 
+    private Card VisualCard;//视觉上的卡片
+    public Card VisualCard_ { get => VisualCard; set => VisualCard = value; }
+
     [Header("卡牌效果")]
     [SerializeReference]
     [LabelText("打出时效果")]
@@ -101,11 +104,6 @@ public class CardData : ScriptableObject
     //当打出时
     public virtual void WhenPlay(Individual player, Individual aim)
     {
-        foreach(var effect in WhenPlayEffect)
-        {
-            effect.OnWork(player, aim);
-        }
-
         switch (Type)
         {
             case CardType.攻击:
@@ -123,6 +121,11 @@ public class CardData : ScriptableObject
                     aim.Heal(Strength);
                     break;
                 }
+        }
+
+        foreach (var effect in WhenPlayEffect)
+        {
+            effect.OnWork(VisualCard, player, aim);
         }
     }
 }
