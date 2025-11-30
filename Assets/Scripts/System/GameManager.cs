@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-//ç®¡ç†æ¸¸æˆè¿›ç¨‹çš„è„šæœ¬
+//¹ÜÀíÓÎÏ·½ø³ÌµÄ½Å±¾
 public class GameManager : MonoBehaviour
 {
-    #region è´§å¸
+    #region »õ±Ò
     private int Coin;
     public int Coin_ { get => Coin; }
 
@@ -18,22 +18,22 @@ public class GameManager : MonoBehaviour
     {
         if(delta > Coin)
         {
-            Debug.LogError("æ²¡æœ‰è¿™ä¹ˆå¤šè´§å¸ï¼");
+            Debug.LogError("Ã»ÓĞÕâÃ´¶à»õ±Ò£¡");
             return;
         }
         Coin -= delta;
     }
     #endregion
 
-    private CardList Deck = new();//ç‰Œåº“
+    private CardList Deck = new();//ÅÆ¿â
     public CardList Deck_ { get => Deck; }
 
-    private int Level;//ç¬¬å‡ æ¬¡æˆ˜æ–—
+    private int Level;//µÚ¼¸´ÎÕ½¶·
     public int Level_ { get => Level; set => Level = value; }
 
-    private bool IsBattle;//æ˜¯å¦å¤„äºæˆ˜æ–—ä¸­
+    private bool IsBattle;//ÊÇ·ñ´¦ÓÚÕ½¶·ÖĞ
 
-    private float Luckiness;//å¹¸è¿ï¼ˆå½±å“å•†åº—åˆ·æ–°ç‰©å“çš„è´¨é‡ï¼‰
+    private float Luckiness;//ĞÒÔË£¨Ó°ÏìÉÌµêË¢ĞÂÎïÆ·µÄÖÊÁ¿£©
     public float Luckiness_ { get => Luckiness; }
 
     [SerializeField]
@@ -52,28 +52,33 @@ public class GameManager : MonoBehaviour
     {
         CardList basedeck = new()
         {
-            "é­”é•œ",
-            "éŸ³æ³¢æ‰“å‡»",
-            "é—ªé¿",
-            "åŸºç¡€æ”»å‡»",
-            "åŸºç¡€æ”»å‡»",
-            "åŸºç¡€æ”»å‡»",
-            "åŸºç¡€æ”»å‡»",
-            "åŸºç¡€é˜²å¾¡",
-            "åŸºç¡€é˜²å¾¡",
-            "åŸºç¡€é˜²å¾¡",
-            "åŸºç¡€é˜²å¾¡",
-            "åŸºç¡€æ²»ç–—",
-            "åŸºç¡€æ²»ç–—",
-            "é‡å‹æŠ¤ç›¾"
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡¹¥»÷",
+            "»ù´¡·ÀÓù",
+            "»ù´¡·ÀÓù",
+            "»ù´¡·ÀÓù",
+            "»ù´¡·ÀÓù",
+            "»ù´¡ÖÎÁÆ",
+            "»ù´¡ÖÎÁÆ"
         };
         Init(basedeck);
 
         BattleManager.Instance.BattleStart();
     }
 
-    //åˆå§‹åŒ–
-    public void Init(CardList basedeck)//basecardè¡¨ç¤ºåˆå§‹å¡ç»„
+    private void Update()
+    {
+        CoinText.text = Coin.ToString();
+        LevelText.text = $"µÚ{Level}´Î¿¼Ñé";
+    }
+
+    //³õÊ¼»¯
+    public void Init(CardList basedeck)//basecard±íÊ¾³õÊ¼¿¨×é
     {
         Deck = basedeck;
         Level = 0;
@@ -91,7 +96,7 @@ public class GameManager : MonoBehaviour
         GameSave.Instance.SaveData();
     }
 
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
+    //·µ»ØÖ÷²Ëµ¥
     public void ReturntoMainPage()
     {
         FadeEvent.Instance.Fadeto("EntranceScene");
