@@ -31,6 +31,8 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     [SerializeField] private float returnDuration = 0.3f;
     [SerializeField] private Ease returnEase = Ease.OutCubic;
 
+    private static bool isAnyCardDragging = false;
+
     private Tween currentTween;
     // 状态
     private bool isDragging = false;
@@ -87,7 +89,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     #region 鼠标交互
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isInteractable || isDragging) return;
+        if (!isInteractable || isDragging || isAnyCardDragging) return;
         transform.localScale = Vector3.one * hoverScale;
         
         cardDescription.SetActive(true);
@@ -95,7 +97,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isInteractable || isDragging) return;
+        if (!isInteractable || isDragging || isAnyCardDragging) return;
         transform.localScale = Vector3.one;
 
         cardDescription.SetActive(false);
@@ -114,6 +116,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
 
         isDragging = true;
+        isAnyCardDragging = true;
         originalPosition = transform.localPosition;
         originalParent = transform.parent;
 
@@ -142,6 +145,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         if (!isInteractable) return;
 
         isDragging = false;
+        isAnyCardDragging = false;
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
