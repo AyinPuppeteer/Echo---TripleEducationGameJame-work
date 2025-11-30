@@ -89,4 +89,12 @@ public class Individual : MonoBehaviour
         BattleManager.Instance.SummonNumber(heal, Color.green, transform.position);
         return heal;
     }
+
+    public void TurnEnd()
+    {
+        foreach(var buff in Buffs)
+        {
+            buff.WhenTurnEnd();
+        }
+    }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   Strength: 6
   Type: 0
   Rarity: 1
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: e20f823c1639547438050434d14bdfe6, type: 3}
   WhenReadyEffect: []
   BeforePlayEffect: []
   WhenPlayEffect:

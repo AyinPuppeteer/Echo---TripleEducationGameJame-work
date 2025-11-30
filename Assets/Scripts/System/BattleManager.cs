@@ -22,6 +22,18 @@ public class BattleManager : MonoBehaviour
     private CardList Deck;//卡组
     private CardList Tomb;//墓地
 
+    //卡组陈列
+    [SerializeField]
+    private CardsDisplay CardsDisplay;
+    public void ShowDeck()
+    {
+        CardsDisplay.CreateCards(Deck);
+    }
+    public void ShowTomb()
+    {
+        CardsDisplay.CreateCards(Tomb);
+    }
+
     #region 手牌管理
     [SerializeField]
     private CommandArea PlayerHand, MirrorHand;
@@ -48,7 +60,7 @@ public class BattleManager : MonoBehaviour
         card.Initialize(carddata);
         MirrorHand.AddCard(card);//加入手牌区域
         card.PlayAppearAnimation();
-        card.SetInteractable(false);
+        card.SetDraggable(false);
         DOTween.To(() => 0, x => { }, 0, 0.2f).OnComplete(() => card.PlayRippleEffect());
     }
     #endregion
@@ -161,6 +173,9 @@ public class BattleManager : MonoBehaviour
                     {
                         card.PlayDisappearAnimation();
                     }
+
+                    Player.TurnEnd();
+                    Mirror.TurnEnd();
 
                     if (Player.Health_ < 0) Failed();
                     else if (Mirror.Health_ < 0) Win();
