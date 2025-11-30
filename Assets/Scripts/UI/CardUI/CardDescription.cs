@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +20,8 @@ public class CardDescription : MonoBehaviour
     [SerializeField]
     private Canvas DescriptionCanvas;
 
+    private int AbilityCount = 0;
+
     [SerializeField]
     private Transform AbilityTextField;//能力解释文本区域
     [SerializeField]
@@ -39,6 +42,12 @@ public class CardDescription : MonoBehaviour
         Description.text = "";
 
         string s = Data.Description_;
+
+        AbilityCount = 0;
+        AddAbility(Ability.无声, () => Data.IsSilent);
+        if (AbilityCount > 0) Description.text += "\n";
+
+        //读取数据中的描述文本
         int l = 0;
         while (l < s.Length) 
         {
@@ -53,6 +62,8 @@ public class CardDescription : MonoBehaviour
                 AbilityPack ap = AbilityDictionary.Find(keyword);
                 if (ap != null)
                 {
+                    AbilityCount++;
+
                     Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[l..r]}</color>";
 
                     //生成能力描述
@@ -65,6 +76,25 @@ public class CardDescription : MonoBehaviour
         }
 
         Strength.text = Data.Strength_.ToString();
+    }
+
+    private void AddAbility(Ability ability, Func<bool> judge)
+    {
+        if (judge())
+        {
+            if (AbilityCount > 0) Description.text += " ";
+            AbilityPack ap = AbilityDictionary.Find(ability);
+            if (ap != null)
+            {
+                AbilityCount++;
+
+                Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{ability}</color>";
+
+                //生成能力描述
+                ob = Instantiate(AbilityTextOb, AbilityTextField);
+                ob.GetComponent<AbilityText>().SetData(ap);
+            }
+        }
     }
 
     public void SetActive(bool b)

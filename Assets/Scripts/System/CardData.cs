@@ -60,9 +60,15 @@ public class CardData : ScriptableObject
     public Card VisualCard_ { get => VisualCard; set => VisualCard = value; }
 
     [Header("卡牌效果")]
-    [SerializeReference]
     [LabelText("打出时效果")]
+    [SerializeReference]
     private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
+
+    [FoldoutGroup("词条设置")]
+    [LabelText("无声")]
+    [SerializeField]
+    private bool Silent;
+    public bool IsSilent => Silent;
 
     private const string PathRoot = "ScriptAssets/卡片数据/";
 
@@ -95,6 +101,8 @@ public class CardData : ScriptableObject
         data.Type = temple.Type;
         data.Rarity = temple.Rarity;
         data.Image = temple.Image;
+
+        data.Silent = temple.Silent;
 
         data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;

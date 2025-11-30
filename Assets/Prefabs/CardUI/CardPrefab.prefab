@@ -874,7 +874,7 @@ MonoBehaviour:
   cardDescription: {fileID: 1784387350227376360}
   hoverScale: 1.1
   dragAlpha: 0.7
-  FlipDuration: 0.3
+  FlipDuration: 0.2
   returnDuration: 0.3
   returnEase: 9
 --- !u!114 &1784387350227376360

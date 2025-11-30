@@ -48,13 +48,18 @@ public class AbilityDictionary
         Descriptions.Add(ability, new(name == "" ? ability.ToString() : name, description, color));
     }
 
+    public static AbilityPack Find(Ability ability)
+    {
+        if (Descriptions == null) Initialize();
+        if (Descriptions.ContainsKey(ability)) return Descriptions[ability];
+        else Debug.LogError($"字典中没有该能力的信息：{ability}!");
+        return null;
+    }
     public static AbilityPack Find(string name)
     {
-        if(Descriptions == null) Initialize();
         if(Enum.TryParse(name, out Ability ability))
         {
-            if (Descriptions.ContainsKey(ability)) return Descriptions[ability];
-            else Debug.LogError($"字典中没有该能力的信息：{name}!");
+            return Find(ability);
         }
         else Debug.LogError($"未查询到该能力：{name}!");
         return null;

@@ -83,4 +83,10 @@ public class GameManager : MonoBehaviour
         };
         GameSave.Instance.SaveData();
     }
+
+    //·µ»ØÖ÷²Ëµ¥
+    public void ReturntoMainPage()
+    {
+        FadeEvent.Instance.Fadeto("EntranceScene");
+    }
 }

@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System.Collections;
 
-public class CommandArea : MonoBehaviour
+public class CommandArea : MonoBehaviour, IEnumerable<Card>
 {
     [Header("布局设置")]
     [SerializeField] private int maxCards = 10;
@@ -22,10 +23,33 @@ public class CommandArea : MonoBehaviour
     [LabelText("是否为镜像")]
     [SerializeField] private bool IsMirror;//是否为镜像
 
+    #region 管理卡片
     private List<Card> commandSequence = new();
+
+    public int Count => commandSequence.Count;
+
+    public Card this[int id]
+    {
+        get
+        {
+            if (commandSequence.Count > id) return commandSequence[id];
+            else return null;
+        }
+    }
+
+    public IEnumerator<Card> GetEnumerator()
+    {
+        return commandSequence.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+    #endregion
+
     private Card currentlyDraggedCard;
     private Dictionary<Card, Tween> activeTweens = new();
-    public List<Card> CommandSequence_ { get => commandSequence; }
 
     public void AddCard(Card card)
     {
