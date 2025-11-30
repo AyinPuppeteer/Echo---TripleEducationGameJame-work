@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27405ec01b9a0d240ad49f99bd380da0, type: 3}
-  m_Name: "\u91CD\u578B\u9632\u62A4"
+  m_Name: "\u91CD\u578B\u62A4\u76FE"
   m_EditorClassIdentifier: 
-  Name: "\u91CD\u578B\u9632\u62A4"
+  Name: "\u91CD\u578B\u62A4\u76FE"
   Description: "$\u5E72\u6D891$"
   Strength: 12
   Type: 1

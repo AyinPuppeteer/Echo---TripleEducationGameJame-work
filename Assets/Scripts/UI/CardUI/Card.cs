@@ -114,7 +114,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     #region 鼠标交互
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isInteractable || isDragging) return;
+        if (isDragging) return;
         transform.localScale = Vector3.one * hoverScale;
         
         cardDescription.SetActive(true);
@@ -122,7 +122,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isInteractable || isDragging) return;
+        if (isDragging) return;
         transform.localScale = Vector3.one;
 
         cardDescription.SetActive(false);
