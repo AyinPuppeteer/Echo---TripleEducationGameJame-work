@@ -21,8 +21,17 @@ public class BattleManager : MonoBehaviour
     private CardList Deck;//卡组
     private CardList Tomb;//墓地
 
+    #region 手牌管理
     [SerializeField]
     private CommandArea PlayerHand, MirrorHand;
+
+    public Card GetHandAt(int id)
+    {
+        if (id < 0) return null;
+        if (id < 10) return PlayerHand[id];
+        else return MirrorHand[id - 10];
+    }
+
     private void AddtoPlayerHand(CardData carddata)
     {
         ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
@@ -40,6 +49,7 @@ public class BattleManager : MonoBehaviour
         card.PlayAppearAnimation();
         DOTween.To(() => 0, x => { }, 0, 0.2f).OnComplete(() => card.PlayRippleEffect());
     }
+    #endregion
 
     [SerializeField]
     private GameObject CardOb;//卡片物体
@@ -47,7 +57,7 @@ public class BattleManager : MonoBehaviour
     private GameObject ob;
 
     private bool CardPlaying;//是否正在打出卡牌
-    private float CardPlayTimer, CardPlayTime = 0.2f;//出牌间隔计时器和出牌间隔
+    private float CardPlayTimer, CardPlayTime = 0.4f;//出牌间隔计时器和出牌间隔
 
     private int CardIndex;//当前打出的卡牌下标
 
@@ -58,7 +68,12 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void Echo(CardData card)
     {
-        if(EchoList.Count < 10) EchoList.Add(CardData.Cloneby(card));
+        if(EchoList.Count < 10)
+        {
+            CardData clonecard = CardData.Cloneby(card);
+            if(card.IsDiffuse) clonecard.Strength_ = 0;
+            EchoList.Add(clonecard);
+        }
     }
     #endregion
 
@@ -124,12 +139,12 @@ public class BattleManager : MonoBehaviour
                 {
                     CardPlaying = false;
                     CardIndex = 0;
-                    foreach (var card in PlayerHand.CommandSequence_)
+                    foreach (var card in PlayerHand)
                     {
                         card.PlayDisappearAnimation();
-                        Tomb.Add(card.CardData);
+                        if(!card.CardData.CanRunOut) Tomb.Add(card.CardData);
                     }
-                    foreach (var card in MirrorHand.CommandSequence_)
+                    foreach (var card in MirrorHand)
                     {
                         card.PlayDisappearAnimation();
                     }
@@ -143,16 +158,28 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    if(PlayerHand.CommandSequence_.Count >= CardIndex)
+                    if(PlayerHand.Count >= CardIndex)
                     {
-                        Card card = PlayerHand.CommandSequence_[CardIndex - 1];
-                        if (Player.Health_ > 0) card.Play(Player);//血量大于0则使用卡
-                        Echo(card.CardData);//回响序列添加
+                        Card card = PlayerHand[CardIndex - 1];
+                        if (Player.Health_ > 0)
+                        {
+                            if (card.CanUse)
+                            {
+                                card.Play(Player);//血量大于0则使用卡
+                                if(!card.CardData.IsSilent) Echo(card.CardData);//回响序列添加
+                            }
+                        }
                     }
-                    if (MirrorHand.CommandSequence_.Count >= CardIndex)
+                    if (MirrorHand.Count >= CardIndex)
                     {
-                        Card card = MirrorHand.CommandSequence_[CardIndex - 1];
-                        if (Mirror.Health_ > 0) card.Play(Mirror);//血量大于0则使用卡
+                        Card card = MirrorHand[CardIndex - 1];
+                        if (Mirror.Health_ > 0)
+                        {
+                            if (card.CanUse)
+                            {
+                                card.Play(Mirror);//血量大于0则使用卡
+                            }
+                        }
                     }
                 }
             }
@@ -165,7 +192,7 @@ public class BattleManager : MonoBehaviour
         CardPlaying = true;
         EchoList.Clear();
 
-        foreach(var card in PlayerHand.CommandSequence_)
+        foreach(var card in PlayerHand)
         {
             card.SetInteractable(false);
         }

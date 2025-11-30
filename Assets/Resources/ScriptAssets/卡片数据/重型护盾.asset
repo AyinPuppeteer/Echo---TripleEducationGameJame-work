@@ -16,9 +16,18 @@ MonoBehaviour:
   Description: "$\u5E72\u6D891$"
   Strength: 12
   Type: 1
-  Rarity: 0
+  Rarity: 1
   Image: {fileID: 21300000, guid: eb93dce58d822d24d921814307b39336, type: 3}
-  WhenPlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568244555776001
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568244555776001
+      type: {class: Intereference, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5E72\u6D89X"
+        Count: 1

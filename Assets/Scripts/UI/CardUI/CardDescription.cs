@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +20,8 @@ public class CardDescription : MonoBehaviour
     [SerializeField]
     private Canvas DescriptionCanvas;
 
+    private int AbilityCount = 0;
+
     [SerializeField]
     private Transform AbilityTextField;//能力解释文本区域
     [SerializeField]
@@ -39,13 +42,21 @@ public class CardDescription : MonoBehaviour
         Description.text = "";
 
         string s = Data.Description_;
-        int l = 0;
-        while (l < s.Length) 
+
+        AbilityCount = 0;
+        AddAbility(Ability.无声, () => Data.IsSilent);
+        AddAbility(Ability.漫反射, () => Data.IsDiffuse);
+        AddAbility(Ability.消耗, () => Data.CanRunOut);
+        if (AbilityCount > 0) Description.text += "\n";
+
+        //读取数据中的描述文本
+        int l = -1;
+        while (l < s.Length - 1) 
         {
-            if (s[l++] == '$')
+            if (s[++l] == '$')
             {
                 string keyword = "";
-                int r = l - 1;
+                int r = l;
                 while (++r < s.Length && s[r] != '$')
                 {
                     if (s[r] < '0' || s[r] > '9') keyword += s[r];
@@ -53,18 +64,39 @@ public class CardDescription : MonoBehaviour
                 AbilityPack ap = AbilityDictionary.Find(keyword);
                 if (ap != null)
                 {
-                    Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[l..r]}</color>";
+                    AbilityCount++;
+
+                    Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[(l+1)..r]}</color>";
 
                     //生成能力描述
                     ob = Instantiate(AbilityTextOb, AbilityTextField);
                     ob.GetComponent<AbilityText>().SetData(ap);
                 }
-                l = r + 1;
+                l = r;
             }
             else Description.text += s[l];
         }
 
         Strength.text = Data.Strength_.ToString();
+    }
+
+    private void AddAbility(Ability ability, Func<bool> judge)
+    {
+        if (judge())
+        {
+            if (AbilityCount > 0) Description.text += " ";
+            AbilityPack ap = AbilityDictionary.Find(ability);
+            if (ap != null)
+            {
+                AbilityCount++;
+
+                Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{ability}</color>";
+
+                //生成能力描述
+                ob = Instantiate(AbilityTextOb, AbilityTextField);
+                ob.GetComponent<AbilityText>().SetData(ap);
+            }
+        }
     }
 
     public void SetActive(bool b)

@@ -27,7 +27,7 @@ public class CardData : ScriptableObject
     [GUIColor("GetColor")]
     [LabelText("强度")]
     private int Strength;
-    public int Strength_ { get => Strength; }
+    public int Strength_ { get => Strength; set => Strength = value; }
     private Color GetColor()
     {
         switch (Type)
@@ -59,10 +59,30 @@ public class CardData : ScriptableObject
     private Card VisualCard;//视觉上的卡片
     public Card VisualCard_ { get => VisualCard; set => VisualCard = value; }
 
+    #region 卡牌效果
     [Header("卡牌效果")]
-    [SerializeReference]
     [LabelText("打出时效果")]
+    [SerializeReference]
     private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
+
+    [FoldoutGroup("词条设置")]
+    [LabelText("无声")]
+    [SerializeField]
+    private bool Silent;
+    public bool IsSilent => Silent;
+
+    [FoldoutGroup("词条设置")]
+    [LabelText("漫反射")]
+    [SerializeField]
+    private bool Diffuse;
+    public bool IsDiffuse => Diffuse;
+
+    [FoldoutGroup("词条设置")]
+    [LabelText("消耗")]
+    [SerializeField]
+    private bool RunOut;
+    public bool CanRunOut => RunOut;
+    #endregion
 
     private const string PathRoot = "ScriptAssets/卡片数据/";
 
@@ -95,6 +115,10 @@ public class CardData : ScriptableObject
         data.Type = temple.Type;
         data.Rarity = temple.Rarity;
         data.Image = temple.Image;
+
+        data.Silent = temple.Silent;
+        data.Diffuse = temple.Diffuse;
+        data.RunOut = temple.RunOut;
 
         data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;

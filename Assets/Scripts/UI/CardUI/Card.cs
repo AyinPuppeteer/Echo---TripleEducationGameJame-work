@@ -13,6 +13,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private CardData cardData;
     public CardData CardData { get => cardData; }
 
+    #region UI
     [Header("UI组件")]
     [LabelText("卡图")]
     [SerializeField] private Image cardImage;
@@ -22,15 +23,18 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     [SerializeField] private Image cardBack; 
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private CardDescription cardDescription;
+    #endregion
 
+    #region 动画与效果
     [Header("视觉效果")]
     [SerializeField] private float hoverScale = 1.1f;
     [SerializeField] private float dragAlpha = 0.7f;
-    [SerializeField] private float FlipDuration = 0.4f;
+    [SerializeField] private float FlipDuration = 0.3f;
 
     [Header("动画设置")]
-    [SerializeField] private float returnDuration = 0.3f;
+    [SerializeField] private float returnDuration = 0.2f;
     [SerializeField] private Ease returnEase = Ease.OutCubic;
+    #endregion
 
     private Tween currentTween;
     // 状态
@@ -38,12 +42,35 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private Vector3 originalPosition;
     private Transform originalParent;
     private bool isInteractable = true; //是否可交互
+    public bool IsInteractable => isInteractable; // 接口实现
     private bool IsBackOver;//是否反面朝上
 
-    private int Index;//序列号（玩家卡牌为0~9，镜像为10~19）
+    private int Index = -1;//序列号（玩家卡牌为0~9，镜像为10~19）
     public int Index_ { get => Index; set => Index = value; }
+    public Card Last
+    {
+        get
+        {
+            if (Index == -1) return null;
+            if (Index == 10) return null;
+            return BattleManager.Instance.GetHandAt(Index - 1);
+        }
+    }
+    public Card Next
+    {
+        get
+        {
+            if (Index == -1) return null;
+            if (Index == 9) return null;
+            return BattleManager.Instance.GetHandAt(Index + 1);
+        }
+    }
 
-    public bool IsInteractable => isInteractable; // 接口实现
+    #region 卡牌属性
+    private bool Banned;//是否被禁用
+    public void Ban() => Banned = true;
+    public bool CanUse { get => !Banned; }
+    #endregion
 
     private void Start()
     {
@@ -55,6 +82,9 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         cardData = data;
         data.VisualCard_ = this;
+
+        if(data)
+
         UpdateCardAppearance();
     }
 

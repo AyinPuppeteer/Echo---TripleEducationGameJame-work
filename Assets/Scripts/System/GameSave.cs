@@ -82,5 +82,7 @@ public class GamePack
 
     public bool IsBattle;//是否正在战斗（不是则说明在商店）
 
+    public int Coin;//货币数量
+
     public List<string> Cards;//持有的卡牌（名字）
 }
