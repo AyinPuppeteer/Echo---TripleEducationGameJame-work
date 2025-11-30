@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: "\u95EA\u907F"
   m_EditorClassIdentifier: 
   Name: "\u95EA\u907F"
-  Description: "$\u65E0\u58F0$ \u81EA\u8EAB\u83B7\u5F97$\u95EA\u907F1$"
+  Description: "\u81EA\u8EAB\u83B7\u5F97$\u95EA\u907F1$\u3002"
   Strength: 0
   Type: 1
-  Rarity: 0
+  Rarity: 1
   Image: {fileID: 0}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
   WhenPlayEffect: []
+  Silent: 1
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds: []

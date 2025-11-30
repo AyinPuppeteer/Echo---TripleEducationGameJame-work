@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Intereference : CardEffect_WhenPlay
+public class Intereference_WhenPlay : CardEffect_WhenPlay
 {
     [LabelText("干扰数目")]
     [Min(1)]
     [SerializeField]
     private int Count = 1;
 
-    public Intereference()
+    public Intereference_WhenPlay()
     {
         Description = "干涉X";
     }

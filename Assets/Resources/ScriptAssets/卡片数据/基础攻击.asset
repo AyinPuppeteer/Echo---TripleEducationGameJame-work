@@ -17,10 +17,19 @@ MonoBehaviour:
   Strength: 4
   Type: 0
   Rarity: 0
-  Image: {fileID: 21300000, guid: ab565564959ab414ab1ef33acef59303, type: 3}
-  WhenPlayEffect: []
+  Image: {fileID: 21300000, guid: 96f0b990f43762641ac1d7ab5ff3809a, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413335
   Silent: 0
   Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413335
+      type: {class: Burn_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u71C3\u70E7X"
+        Count: 2

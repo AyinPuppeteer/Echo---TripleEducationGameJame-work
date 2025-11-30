@@ -2,24 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 //管理单位/个体的脚本
 public class Individual : MonoBehaviour
 {
     private int Health;
-    public int Health_ { get => Health; }
+    public int Health_ { get => Health; set => Health = value; }
     private int MaxHealth;
     public int MaxHealth_ {  get => MaxHealth; }
 
     private int Shield;//护盾值
-    public int Shield_ { get => Shield; }
+    public int Shield_ { get => Shield; set => Shield = value; }
 
     [SerializeField]
     private Individual Enemy;//敌对单位
     public Individual Enemy_ { get => Enemy; }
 
+    #region Buff管理
     private readonly List<Buff> Buffs = new();//挂载的Buff列表
     public List<Buff> Buffs_ { get => Buffs; }
+
+    [SerializeField]
+    private Transform BuffField;//Buff图标区域
+    public Transform BuffField_ => BuffField;
+
+    //添加Buff
+    public void AddBuff(Buff buff)
+    {
+        foreach(var b in Buffs)
+        {
+            if (b.Name_ == buff.Name_)
+            {
+                b.Add(buff);
+                return;
+            }
+        }
+        Buffs.Add(buff);
+        buff.SetCarrier(this);
+        BuffIcon_Creator.Instance.CreateBuffIcon(buff, BuffField);
+    }
+    #endregion
 
     public void SetHealth(int health)
     {

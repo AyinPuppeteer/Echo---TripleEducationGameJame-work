@@ -16,9 +16,20 @@ MonoBehaviour:
   Description: "$\u5E72\u6D891$ \u4F7F\u654C\u4EBA\u7684\u62A4\u7532\u503C\u53D8\u4E3A0"
   Strength: 0
   Type: 0
-  Rarity: 0
-  Image: {fileID: 0}
-  WhenPlayEffect: []
+  Rarity: 1
+  Image: {fileID: 21300000, guid: ae384fae03f0dad4bb5908467e778eb5, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413318
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413318
+      type: {class: Intereference_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5E72\u6D89X"
+        Count: 1

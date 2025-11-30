@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: "\u51B0\u9525"
   m_EditorClassIdentifier: 
   Name: "\u51B0\u9525"
-  Description: "\u9020\u6210\u4F24\u5BB3\u65F6\uFF0C\u5BF9\u76EE\u6807\u65BD\u52A0$\u5BD2\u51B71$"
+  Description: "\u9020\u6210\u4F24\u5BB3\u65F6\uFF0C\u5BF9\u76EE\u6807\u65BD\u52A0$\u5BD2\u51B71$\u3002"
   Strength: 3
   Type: 0
-  Rarity: 0
+  Rarity: 1
   Image: {fileID: 0}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds: []

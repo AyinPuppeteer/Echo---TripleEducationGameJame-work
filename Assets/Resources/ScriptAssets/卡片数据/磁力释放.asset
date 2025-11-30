@@ -13,12 +13,23 @@ MonoBehaviour:
   m_Name: "\u78C1\u529B\u91CA\u653E"
   m_EditorClassIdentifier: 
   Name: "\u78C1\u529B\u91CA\u653E"
-  Description: "$\u5E72\u6D891$ $\u6F2B\u53CD\u5C04$"
+  Description: "$\u5E72\u6D891$"
   Strength: 8
   Type: 1
   Rarity: 1
-  Image: {fileID: 0}
-  WhenPlayEffect: []
+  Image: {fileID: 21300000, guid: 2a78f072c90608a40bb5d10324a8e5db, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413317
+  Silent: 0
+  Diffuse: 1
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413317
+      type: {class: Intereference_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5E72\u6D89X"
+        Count: 1

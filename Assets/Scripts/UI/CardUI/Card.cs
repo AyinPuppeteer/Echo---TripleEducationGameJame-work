@@ -84,9 +84,6 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         cardData = data;
         data.VisualCard_ = this;
-
-        if(data)
-
         UpdateCardAppearance();
     }
 

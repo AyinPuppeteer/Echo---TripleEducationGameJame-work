@@ -13,12 +13,29 @@ MonoBehaviour:
   m_Name: "\u53EC\u5524\u95EA\u7535"
   m_EditorClassIdentifier: 
   Name: "\u53EC\u5524\u95EA\u7535"
-  Description: "$\u5171\u632F$ \u989D\u5916\u9020\u6210\u4E00\u6B21\u4F24\u5BB3"
+  Description: "$\u5171\u632F$ \u989D\u5916\u9020\u6210\u4E00\u6B21\u4F24\u5BB3\u3002"
   Strength: 4
   Type: 0
-  Rarity: 0
-  Image: {fileID: 0}
+  Rarity: 1
+  Image: {fileID: 21300000, guid: 36590e9521fcd1b4d8ddcc68417f63f9, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect:
+  - rid: 8435568248854413328
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413328
+      type: {class: Resonate_BeforePlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5171\u9E23X"
+        Effects:
+        - rid: 8435568248854413330
+    - rid: 8435568248854413330
+      type: {class: Echo_BeforePlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u56DE\u54CDX"
+        Count: 1

@@ -64,7 +64,8 @@ public class GameManager : MonoBehaviour
             "基础防御",
             "基础防御",
             "基础治疗",
-            "基础治疗"
+            "基础治疗",
+            "召唤闪电"
         };
         Init(basedeck);
 
