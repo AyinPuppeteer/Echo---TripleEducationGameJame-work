@@ -44,6 +44,8 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     private bool isInteractable = true; //是否可交互
     public bool IsInteractable => isInteractable; // 接口实现
     private bool IsBackOver;//是否反面朝上
+    private bool canDrag = true; // 默认可拖动
+    private bool CanDrag => canDrag;
 
     private int Index = -1;//序列号（玩家卡牌为0~9，镜像为10~19）
     public int Index_ { get => Index; set => Index = value; }
@@ -101,6 +103,14 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         }
     }
 
+    /// <summary>
+    /// 设置卡牌是否可被拖动
+    /// </summary>
+    public void SetDraggable(bool canDrag)
+    {
+        this.canDrag = canDrag;
+    }
+
     private void UpdateCardAppearance()
     {
         if (cardData == null) return;
@@ -114,7 +124,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     #region 鼠标交互
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isDragging) return;
+        if (isDragging || !IsInteractable) return;
         transform.localScale = Vector3.one * hoverScale;
         
         cardDescription.SetActive(true);
@@ -122,7 +132,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isDragging) return;
+        if (isDragging || !isInteractable) return;
         transform.localScale = Vector3.one;
 
         cardDescription.SetActive(false);
@@ -131,7 +141,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     // 拖拽功能
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!isInteractable) return;
+        if (!isInteractable || !canDrag) return;
 
         // 停止当前动画
         if (currentTween != null && currentTween.IsActive())
@@ -147,14 +157,12 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         canvasGroup.alpha = dragAlpha;
         canvasGroup.blocksRaycasts = false;
 
-        // 提升层级确保在拖拽时显示在最前面
-        transform.SetParent(transform.root);
         transform.SetAsLastSibling();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isInteractable || !isDragging) return;
+        if (!isInteractable || !isDragging || !canDrag) return;
 
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
             transform as RectTransform, eventData.position,
@@ -166,7 +174,7 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isInteractable) return;
+        if (!isInteractable || !canDrag) return;
 
         isDragging = false;
         canvasGroup.alpha = 1f;
