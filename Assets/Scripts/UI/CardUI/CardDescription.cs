@@ -45,16 +45,18 @@ public class CardDescription : MonoBehaviour
 
         AbilityCount = 0;
         AddAbility(Ability.无声, () => Data.IsSilent);
+        AddAbility(Ability.漫反射, () => Data.IsDiffuse);
+        AddAbility(Ability.消耗, () => Data.CanRunOut);
         if (AbilityCount > 0) Description.text += "\n";
 
         //读取数据中的描述文本
-        int l = 0;
-        while (l < s.Length) 
+        int l = -1;
+        while (l < s.Length - 1) 
         {
-            if (s[l++] == '$')
+            if (s[++l] == '$')
             {
                 string keyword = "";
-                int r = l - 1;
+                int r = l;
                 while (++r < s.Length && s[r] != '$')
                 {
                     if (s[r] < '0' || s[r] > '9') keyword += s[r];
@@ -64,13 +66,13 @@ public class CardDescription : MonoBehaviour
                 {
                     AbilityCount++;
 
-                    Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[l..r]}</color>";
+                    Description.text += $"<color=#{ColorUtility.ToHtmlStringRGB(ap.Color)}>{s[(l+1)..r]}</color>";
 
                     //生成能力描述
                     ob = Instantiate(AbilityTextOb, AbilityTextField);
                     ob.GetComponent<AbilityText>().SetData(ap);
                 }
-                l = r + 1;
+                l = r;
             }
             else Description.text += s[l];
         }

@@ -68,7 +68,12 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void Echo(CardData card)
     {
-        if(EchoList.Count < 10) EchoList.Add(CardData.Cloneby(card));
+        if(EchoList.Count < 10)
+        {
+            CardData clonecard = CardData.Cloneby(card);
+            if(card.IsDiffuse) clonecard.Strength_ = 0;
+            EchoList.Add(clonecard);
+        }
     }
     #endregion
 
@@ -137,7 +142,7 @@ public class BattleManager : MonoBehaviour
                     foreach (var card in PlayerHand)
                     {
                         card.PlayDisappearAnimation();
-                        Tomb.Add(card.CardData);
+                        if(!card.CardData.CanRunOut) Tomb.Add(card.CardData);
                     }
                     foreach (var card in MirrorHand)
                     {

@@ -21,6 +21,8 @@ MonoBehaviour:
   WhenPlayEffect:
   - rid: 8435568244555776001
   Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds:

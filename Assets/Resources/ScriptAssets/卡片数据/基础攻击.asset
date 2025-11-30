@@ -19,7 +19,8 @@ MonoBehaviour:
   Rarity: 0
   Image: {fileID: 21300000, guid: ab565564959ab414ab1ef33acef59303, type: 3}
   WhenPlayEffect: []
-  Silent: 1
+  Silent: 0
+  Diffuse: 0
   references:
     version: 2
     RefIds: []

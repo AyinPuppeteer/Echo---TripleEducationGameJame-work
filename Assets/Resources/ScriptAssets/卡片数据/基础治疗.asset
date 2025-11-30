@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27405ec01b9a0d240ad49f99bd380da0, type: 3}
   m_Name: "\u57FA\u7840\u6CBB\u7597"
   m_EditorClassIdentifier: 
-  Name: "\u57FA\u7840\u653B\u51FB"
+  Name: "\u57FA\u7840\u6CBB\u7597"
   Description: 
   Strength: 2
   Type: 2
   Rarity: 0
   Image: {fileID: 21300000, guid: d39f570493d9dd34dad2691ce4fd23b1, type: 3}
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds: []

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 //管理游戏进程的脚本
@@ -35,6 +36,11 @@ public class GameManager : MonoBehaviour
     private float Luckiness;//幸运（影响商店刷新物品的质量）
     public float Luckiness_ { get => Luckiness; }
 
+    [SerializeField]
+    private TextMeshProUGUI LevelText;
+    [SerializeField]
+    private TextMeshProUGUI CoinText;
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -58,8 +64,7 @@ public class GameManager : MonoBehaviour
             "基础防御",
             "基础防御",
             "基础治疗",
-            "基础治疗",
-            "重型防护"
+            "基础治疗"
         };
         Init(basedeck);
 
@@ -80,6 +85,7 @@ public class GameManager : MonoBehaviour
             Cards = Deck.GetNameList(),
             IsBattle = IsBattle,
             Level = Level,
+            Coin = Coin
         };
         GameSave.Instance.SaveData();
     }
