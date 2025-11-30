@@ -19,6 +19,18 @@ public abstract class CardEffect : IComparable<CardEffect>
 }
 
 [Serializable]
+public abstract class CardEffect_WhenReady : CardEffect
+{
+    public abstract void OnWork(Card card);
+}
+
+[Serializable]
+public abstract class CardEffect_BeforePlay : CardEffect
+{
+    public abstract void OnWork(Card card, Individual player, Individual aim);
+}
+
+[Serializable]
 public abstract class CardEffect_WhenPlay : CardEffect
 {
     public abstract void OnWork(Card card, Individual player, Individual aim);

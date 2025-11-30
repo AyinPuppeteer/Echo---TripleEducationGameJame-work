@@ -82,9 +82,6 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
     {
         cardData = data;
         data.VisualCard_ = this;
-
-        if(data)
-
         UpdateCardAppearance();
     }
 
@@ -148,7 +145,6 @@ public class Card : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointer
         canvasGroup.blocksRaycasts = false;
 
         // 提升层级确保在拖拽时显示在最前面
-        transform.SetParent(transform.root);
         transform.SetAsLastSibling();
     }
 

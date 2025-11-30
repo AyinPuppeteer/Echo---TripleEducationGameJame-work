@@ -61,6 +61,14 @@ public class CardData : ScriptableObject
 
     #region 卡牌效果
     [Header("卡牌效果")]
+    [LabelText("战斗开始时效果")]
+    [SerializeReference]
+    private List<CardEffect_WhenReady> WhenReadyEffect = new();//打出时效果
+
+    [LabelText("打出前效果")]
+    [SerializeReference]
+    private List<CardEffect_BeforePlay> BeforePlayEffect = new();//打出时效果
+
     [LabelText("打出时效果")]
     [SerializeReference]
     private List<CardEffect_WhenPlay> WhenPlayEffect = new();//打出时效果
@@ -120,10 +128,30 @@ public class CardData : ScriptableObject
         data.Diffuse = temple.Diffuse;
         data.RunOut = temple.RunOut;
 
+        data.WhenReadyEffect = temple.WhenReadyEffect;
+        data.BeforePlayEffect = temple.BeforePlayEffect;
         data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;
     }
     #endregion
+
+    //战斗开始时
+    public void WhenReady()
+    {
+        foreach(var effect in WhenReadyEffect)
+        {
+            effect.OnWork(VisualCard);
+        }
+    }
+
+    //打出前
+    public void BeforePlay(Individual player, Individual aim)
+    {
+        foreach (var effect in BeforePlayEffect)
+        {
+            effect.OnWork(VisualCard, player, aim);
+        }
+    }
 
     //当打出时
     public virtual void WhenPlay(Individual player, Individual aim)

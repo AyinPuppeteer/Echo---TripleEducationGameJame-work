@@ -16,9 +16,20 @@ MonoBehaviour:
   Description: "\u5BF9\u76EE\u6807\u65BD\u52A0$\u71C3\u70E72$"
   Strength: 6
   Type: 0
-  Rarity: 0
+  Rarity: 1
   Image: {fileID: 0}
-  WhenPlayEffect: []
+  WhenReadyEffect: []
+  BeforePlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413334
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413334
+      type: {class: Burn_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u71C3\u70E7X"
+        Count: 2

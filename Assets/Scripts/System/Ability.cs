@@ -32,10 +32,10 @@ public class AbilityDictionary
     {
         Descriptions = new();
         Add(Ability.无声, "这个魔法不会被敌人复制。", Color.white);
-        Add(Ability.干涉, "后X个魔法不会生效。", Color.white, "干涉X");
+        Add(Ability.干涉, "禁用后方的X个魔法。", Color.white, "干涉X");
         Add(Ability.回响, "回响X：这个魔法会重复发动X次。", Color.white, "回响X");
         Add(Ability.音障, "音障X：受到攻击时抵消X点伤害，然后反弹给攻击者。", Color.white, "音障X");
-        Add(Ability.燃烧, "回合结束时，造成X点伤害，然后层数减半。", Color.white, "燃烧X");
+        Add(Ability.燃烧, "回合结束时，造成X点伤害，然后层数减半（向下取整）。", Color.white, "燃烧X");
         Add(Ability.漫反射, "这张牌被敌人复制时，其强度变为0。", Color.white);
         Add(Ability.消耗, "使用后，这张卡牌在本轮移除而不进入墓地。", Color.white);
         Add(Ability.闪避, "免除接下来受到的X次伤害。", Color.white, "闪避X");

@@ -16,9 +16,20 @@ MonoBehaviour:
   Description: "$\u56DE\u54CD1$"
   Strength: 4
   Type: 0
-  Rarity: 0
-  Image: {fileID: 0}
+  Rarity: 1
+  Image: {fileID: 21300000, guid: 7c384020c3886cb45a51a8237ce76404, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect:
+  - rid: 8435568248854413323
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413323
+      type: {class: Echo_BeforePlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u56DE\u54CDX"
+        Count: 1

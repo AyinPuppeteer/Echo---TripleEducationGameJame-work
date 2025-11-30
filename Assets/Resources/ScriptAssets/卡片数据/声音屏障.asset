@@ -16,9 +16,14 @@ MonoBehaviour:
   Description: "\u81EA\u8EAB\u83B7\u5F97$\u97F3\u969C5$"
   Strength: 0
   Type: 1
-  Rarity: 0
+  Rarity: 1
   Image: {fileID: 0}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds: []

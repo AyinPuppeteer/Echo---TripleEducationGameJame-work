@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27405ec01b9a0d240ad49f99bd380da0, type: 3}
+  m_Name: "\u590D\u5236\u9B54\u955C"
+  m_EditorClassIdentifier: 
+  Name: "\u590D\u5236\u9B54\u955C"
+  Description: "\u6218\u6597\u5F00\u59CB\u65F6\uFF0C\u5982\u679C\u5DE6\u4FA7\u6709\u9B54\u6CD5\uFF0C\u5219\u53D8\u4E3A\u5DE6\u4FA7\u7684\u9B54\u6CD5\u3002"
+  Strength: 2
+  Type: 1
+  Rarity: 1
+  Image: {fileID: 21300000, guid: aa5f343629420de42a2d1a5cb9ef0ce7, type: 3}
+  WhenReadyEffect:
+  - rid: 8435568248854413316
+  BeforePlayEffect: []
+  WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8435568248854413316
+      type: {class: MagicMirror_WhenReady, ns: , asm: Assembly-CSharp}
+      data:
+        Description: 

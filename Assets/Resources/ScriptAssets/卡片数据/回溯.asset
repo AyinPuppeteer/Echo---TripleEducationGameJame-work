@@ -18,7 +18,12 @@ MonoBehaviour:
   Type: 2
   Rarity: 1
   Image: {fileID: 0}
+  WhenReadyEffect: []
+  BeforePlayEffect: []
   WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
   references:
     version: 2
     RefIds: []

@@ -873,7 +873,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 8784287783622530281}
   cardDescription: {fileID: 1784387350227376360}
   hoverScale: 1.1
-  dragAlpha: 0.7
+  dragAlpha: 1
   FlipDuration: 0.2
   returnDuration: 0.3
   returnEase: 9

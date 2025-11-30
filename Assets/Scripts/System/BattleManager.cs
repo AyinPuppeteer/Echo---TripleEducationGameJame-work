@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,7 @@ public class BattleManager : MonoBehaviour
         card.Initialize(carddata);
         MirrorHand.AddCard(card);//加入手牌区域
         card.PlayAppearAnimation();
+        card.SetInteractable(false);
         DOTween.To(() => 0, x => { }, 0, 0.2f).OnComplete(() => card.PlayRippleEffect());
     }
     #endregion
@@ -60,6 +62,9 @@ public class BattleManager : MonoBehaviour
     private float CardPlayTimer, CardPlayTime = 0.4f;//出牌间隔计时器和出牌间隔
 
     private int CardIndex;//当前打出的卡牌下标
+
+    private readonly List<Func<bool>> ActionList = new();//行动列表
+    public List<Func<bool>> ActionList_ => ActionList;
 
     #region 回响机制
     private readonly List<CardData> EchoList = new();//回响序列（镜像的复制序列）
@@ -135,6 +140,14 @@ public class BattleManager : MonoBehaviour
             if((CardPlayTimer += Time.deltaTime) >= CardPlayTime)
             {
                 CardPlayTimer = 0;
+
+                while (ActionList.Count > 0)
+                {
+                    Func<bool> action = ActionList[0];
+                    ActionList.RemoveAt(0);
+                    if (action()) return;//行动后直接跳出
+                }
+
                 if(++CardIndex > 10)//回合结束
                 {
                     CardPlaying = false;
@@ -158,30 +171,39 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
+                    Card playercard = null, mirrorcard = null;
                     if(PlayerHand.Count >= CardIndex)
                     {
-                        Card card = PlayerHand[CardIndex - 1];
-                        if (Player.Health_ > 0)
-                        {
-                            if (card.CanUse)
-                            {
-                                card.Play(Player);//血量大于0则使用卡
-                                if(!card.CardData.IsSilent) Echo(card.CardData);//回响序列添加
-                            }
-                        }
+                        playercard = PlayerHand[CardIndex - 1];
+                        if (Player.Health_ > 0 && playercard.CanUse) playercard.CardData.BeforePlay(Player, Mirror);
                     }
                     if (MirrorHand.Count >= CardIndex)
                     {
-                        Card card = MirrorHand[CardIndex - 1];
-                        if (Mirror.Health_ > 0)
-                        {
-                            if (card.CanUse)
-                            {
-                                card.Play(Mirror);//血量大于0则使用卡
-                            }
-                        }
+                        mirrorcard = MirrorHand[CardIndex - 1];
+                        if (Mirror.Health_ > 0 && mirrorcard.CanUse) mirrorcard.CardData.BeforePlay(Mirror, Player);
+                    }
+
+                    if (playercard != null)
+                    {
+                        PlayCard(playercard, Player);
+                    }
+                    if (mirrorcard != null)
+                    {
+                        PlayCard(mirrorcard, Mirror);
                     }
                 }
+            }
+        }
+    }
+
+    public void PlayCard(Card card, Individual player)
+    {
+        if (player.Health_ > 0)
+        {
+            if (card.CanUse)
+            {
+                card.Play(player);//血量大于0则使用卡
+                if (player == Player && !card.CardData.IsSilent) Echo(card.CardData);//回响序列添加
             }
         }
     }
@@ -195,6 +217,11 @@ public class BattleManager : MonoBehaviour
         foreach(var card in PlayerHand)
         {
             card.SetInteractable(false);
+            card.CardData.WhenReady();
+        }
+        foreach(var card in MirrorHand)
+        {
+            card.CardData.WhenReady();
         }
     }
 
