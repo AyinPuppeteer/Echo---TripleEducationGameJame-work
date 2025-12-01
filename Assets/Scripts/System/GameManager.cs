@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI CoinText;
 
+    public static GamePack Pack;
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -50,26 +52,49 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        CardList basedeck = new()
+        if(Pack == null)
         {
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡¹¥»÷",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡·ÀÓù",
-            "»ù´¡ÖÎÁÆ",
-            "»ù´¡ÖÎÁÆ",
-            "ÕÙ»½ÉÁµç"
-        };
-        Init(basedeck);
+            CardList basedeck = new()
+            {
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡¹¥»÷",
+                "»ù´¡·ÀÓù",
+                "»ù´¡·ÀÓù",
+                "»ù´¡·ÀÓù",
+                "»ù´¡·ÀÓù",
+                "»ù´¡ÖÎÁÆ",
+                "»ù´¡ÖÎÁÆ"
+            };
+            Init(basedeck);
 
-        BattleManager.Instance.BattleStart();
+            BattleManager.Instance.BattleStart();
+        }
+        else
+        {
+            Deck = new();
+            foreach(var name in Pack.Cards)
+            {
+                Deck.Add(name);
+            }
+
+            Level = Pack.Level;
+            Coin = Pack.Coin;
+
+            if (IsBattle) BattleManager.Instance.BattleStart();
+            else
+            {
+                BattleManager.Instance.SetActive(false);
+                ShopManager.Instance.Open();//Õ¹Ê¾ÉÌµê
+                ShopManager.Instance.Init();
+            }
+
+            Pack = null;
+        }
     }
 
     private void Update()

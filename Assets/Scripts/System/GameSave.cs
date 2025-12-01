@@ -70,6 +70,7 @@ public class GameSave : MonoBehaviour
 [Serializable]
 public class SaveData
 {
+    [SerializeField]
     private GamePack GamePack;
     public GamePack GamePack_ { get => GamePack; set => GamePack = value; }
 }

@@ -19,6 +19,12 @@ public class MainMenuManager : MonoBehaviour
         FadeEvent.Instance.Fadeto("GameScene");
     }
 
+    public void Continue()
+    {
+        GameManager.Pack = GameSave.Instance.data.GamePack_;
+        FadeEvent.Instance.Fadeto("GameScene");
+    }
+
     //ÍË³öÓÎÏ·
     public void QuitGame()
     {

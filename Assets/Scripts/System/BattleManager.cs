@@ -180,8 +180,8 @@ public class BattleManager : MonoBehaviour
                     Player.TurnEnd();
                     Mirror.TurnEnd();
 
-                    if (Player.Health_ < 0) Failed();
-                    else if (Mirror.Health_ < 0) Win();
+                    if (Player.Health_ <= 0) Failed();
+                    else if (Mirror.Health_ <= 0) Win();
                     else
                     {
                         DOTween.To(() => 0, x => { }, 0, 0.4f).OnComplete(TurnStart);
@@ -266,7 +266,10 @@ public class BattleManager : MonoBehaviour
     //战斗失败
     public void Failed()
     {
+        GameSave.Instance.data.GamePack_ = null;//移除存档
+        GameManager.Instance.SaveGame();
 
+        FadeEvent.Instance.Fadeto("EntranceScene");
     }
 
     #region 生成数字特效
