@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 //管理单位/个体的脚本
 public class Individual : MonoBehaviour
@@ -42,16 +41,37 @@ public class Individual : MonoBehaviour
         buff.SetCarrier(this);
         BuffIcon_Creator.Instance.CreateBuffIcon(buff, BuffField);
     }
+
+    public void BuffRefresh()
+    {
+        List<Buff> DelList = new();//删除队列
+        foreach(var b in Buffs)
+        {
+            if(b.DelTag_) DelList.Add(b);
+        }
+        foreach(var b in DelList)
+        {
+            Buffs.Remove(b);
+        }
+    }
     #endregion
 
-    public void SetHealth(int health)
+    public void Init(int health)
     {
         Health = MaxHealth = health;
+        Shield = 0;
+
+        foreach(var buff in Buffs) buff.Remove(); //移除所有Buff
     }
 
     public int Hurt(int damage)
     {
-        if(Shield > 0)
+        foreach(var buff in Buffs)
+        {
+            buff.WhenHurt(ref damage);
+        }
+
+        if (Shield > 0)
         {
             if(Shield >= damage)
             {
@@ -106,5 +126,10 @@ public class Individual : MonoBehaviour
         }
 
         Shield = 0;//回合结束护盾消失
+    }
+
+    private void LateUpdate()
+    {
+        BuffRefresh();
     }
 }

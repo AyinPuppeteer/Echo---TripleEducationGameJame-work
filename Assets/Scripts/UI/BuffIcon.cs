@@ -22,7 +22,7 @@ public class BuffIcon : MonoBehaviour
 
     private void Update()
     {
-        if(Buff == null)
+        if(Buff.DelTag_)
         {
             Destroy(gameObject);
             return;

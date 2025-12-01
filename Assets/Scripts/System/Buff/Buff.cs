@@ -11,6 +11,9 @@ public abstract class Buff
     protected int Count;
     public int Count_ => Count;
 
+    private bool DelTag = false;//删除标记（为true时会被挂载单位消除）
+    public bool DelTag_ => DelTag;
+
     protected Individual Carrier;//挂载对象
     public void SetCarrier(Individual carrier)
     {
@@ -40,8 +43,8 @@ public abstract class Buff
 
     }
 
-    protected void Remove()
+    public void Remove()
     {
-        Carrier.Buffs_.Remove(this);
+        DelTag = true;
     }
 }

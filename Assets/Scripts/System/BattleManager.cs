@@ -57,6 +57,7 @@ public class BattleManager : MonoBehaviour
     {
         ob = Instantiate(CardOb, PlayerHand.transform);//生成卡片
         Card card = ob.GetComponent<Card>();
+        if (carddata.IsDiffuse) carddata.Strength_ = 0;
         card.Initialize(carddata);
         MirrorHand.AddCard(card);//加入手牌区域
         card.PlayAppearAnimation();
@@ -82,7 +83,8 @@ public class BattleManager : MonoBehaviour
     public List<Action> TurnEndAction_ => TurnEndAction;
 
     #region 回响机制
-    private readonly List<CardData> EchoList = new();//回响序列（镜像的复制序列）
+    private readonly CardList EchoList = new();//回响序列（镜像的复制序列）
+    public CardList EchoList_ => EchoList;
     /// <summary>
     /// 让镜像复制指定的魔法
     /// </summary>
@@ -91,7 +93,6 @@ public class BattleManager : MonoBehaviour
         if(EchoList.Count < 10)
         {
             CardData clonecard = CardData.Cloneby(card);
-            if(card.IsDiffuse) clonecard.Strength_ = 0;
             EchoList.Add(clonecard);
         }
     }
@@ -112,8 +113,8 @@ public class BattleManager : MonoBehaviour
 
         GameManager.Instance.Level_++;//关卡数增加
 
-        Player.SetHealth(30);
-        Mirror.SetHealth(30);
+        Player.Init(30);
+        Mirror.Init(30);
 
         Deck = GameManager.Instance.Deck_.Clone();
         Tomb = new();
@@ -180,7 +181,7 @@ public class BattleManager : MonoBehaviour
                     Player.TurnEnd();
                     Mirror.TurnEnd();
 
-                    if (Player.Health_ <= 0) Failed();
+                    if (Player.Health_ <= 0) GameManager.Instance.ShowResult(false);
                     else if (Mirror.Health_ <= 0) Win();
                     else
                     {
@@ -255,6 +256,11 @@ public class BattleManager : MonoBehaviour
     //战斗胜利
     public void Win()
     {
+        if(GameManager.Instance.Level_ >= 10)
+        {
+            GameManager.Instance.ShowResult(true);
+            return;
+        }
         SetActive(false);
         ShopManager.Instance.Open();//展示商店
         ShopManager.Instance.Init();
@@ -262,14 +268,6 @@ public class BattleManager : MonoBehaviour
         GameManager.Instance.AddCoin(5);
 
         GameManager.Instance.SaveGame();
-    }
-    //战斗失败
-    public void Failed()
-    {
-        GameSave.Instance.data.GamePack_ = null;//移除存档
-        GameManager.Instance.SaveGame();
-
-        FadeEvent.Instance.Fadeto("EntranceScene");
     }
 
     #region 生成数字特效

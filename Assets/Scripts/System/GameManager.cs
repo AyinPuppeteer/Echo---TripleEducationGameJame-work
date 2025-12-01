@@ -1,7 +1,9 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 //管理游戏进程的脚本
 public class GameManager : MonoBehaviour
@@ -40,6 +42,11 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI LevelText;
     [SerializeField]
     private TextMeshProUGUI CoinText;
+
+    [SerializeField]
+    private CanvasGroup ResultCanva;
+    [SerializeField]
+    private Image WinImage, FailImage;//胜利图片和失败图片
 
     public static GamePack Pack;
 
@@ -93,6 +100,11 @@ public class GameManager : MonoBehaviour
                 ShopManager.Instance.Init();
             }
 
+            foreach(var name in Pack.EchoList)
+            {
+                BattleManager.Instance.Echo(CardData.Cloneby(name));
+            }
+
             Pack = null;
         }
     }
@@ -117,7 +129,8 @@ public class GameManager : MonoBehaviour
             Cards = Deck.GetNameList(),
             IsBattle = IsBattle,
             Level = Level,
-            Coin = Coin
+            Coin = Coin,
+            EchoList = BattleManager.Instance.EchoList_.GetNameList(),
         };
         GameSave.Instance.SaveData();
     }
@@ -126,5 +139,22 @@ public class GameManager : MonoBehaviour
     public void ReturntoMainPage()
     {
         FadeEvent.Instance.Fadeto("EntranceScene");
+    }
+
+    public void ShowResult(bool win)
+    {
+        ResultCanva.DOFade(1f, 0.2f);
+        ResultCanva.interactable = true;
+        ResultCanva.blocksRaycasts = true;
+        WinImage.enabled = win;
+        FailImage.enabled = !win;
+
+        DOTween.To(() => 0, x => { }, 0, 0.5f).OnComplete(() =>
+        {
+            GameSave.Instance.data.GamePack_ = null;//移除存档
+            GameSave.Instance.SaveData();
+
+            FadeEvent.Instance.Fadeto("EntranceScene");
+        });
     }
 }

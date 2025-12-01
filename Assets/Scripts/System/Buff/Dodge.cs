@@ -12,6 +12,7 @@ public class Dodge : Buff
 
     public override void WhenHurt(ref int damage)
     {
+        if (damage == 0) return;
         damage = 0;
         BattleManager.Instance.SummonText("иа╠э", Color.grey, Carrier.transform.position);
         Count--;

@@ -12,6 +12,8 @@ public class Cold : Buff
 
     public override void WhenReady()
     {
+        if (Count == 0) return;
+
         if(Carrier == BattleManager.Instance.Player_)
         {
             for(int i = 0; i < Count; i++)

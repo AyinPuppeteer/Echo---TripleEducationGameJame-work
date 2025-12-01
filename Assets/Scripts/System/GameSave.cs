@@ -86,4 +86,6 @@ public class GamePack
     public int Coin;//货币数量
 
     public List<string> Cards;//持有的卡牌（名字）
+
+    public List<string> EchoList;//回响卡牌（名字）
 }

@@ -12,6 +12,7 @@ public class SoundBarrier : Buff
 
     public override void WhenHurt(ref int damage)
     {
+        if (damage == 0 || Count == 0) return;
         if(Count > damage)
         {
             Count -= damage;

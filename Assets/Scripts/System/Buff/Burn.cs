@@ -12,6 +12,8 @@ public class Burn : Buff
 
     public override void WhenTurnEnd()
     {
+        if (Count == 0) return; 
+
         Carrier.Hurt(Count);
         Count /= 2;
 
