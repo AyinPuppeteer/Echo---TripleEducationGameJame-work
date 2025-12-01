@@ -14,5 +14,7 @@ public class Burn : Buff
     {
         Carrier.Hurt(Count);
         Count /= 2;
+
+        if(Count <= 0) Remove();
     }
 }

@@ -17,13 +17,19 @@ MonoBehaviour:
   Strength: 3
   Type: 0
   Rarity: 1
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: 871261af0daee8248819514428c19f10, type: 3}
   WhenReadyEffect: []
   BeforePlayEffect: []
-  WhenPlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413336
   Silent: 0
   Diffuse: 0
   RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413336
+      type: {class: Cold_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5BD2\u51B7X"
+        Count: 1

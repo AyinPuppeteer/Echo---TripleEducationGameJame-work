@@ -78,6 +78,9 @@ public class BattleManager : MonoBehaviour
     private readonly List<Func<bool>> ActionList = new();//行动列表
     public List<Func<bool>> ActionList_ => ActionList;
 
+    private readonly List<Action> TurnEndAction = new();//回合结束时行动
+    public List<Action> TurnEndAction_ => TurnEndAction;
+
     #region 回响机制
     private readonly List<CardData> EchoList = new();//回响序列（镜像的复制序列）
     /// <summary>
@@ -183,6 +186,12 @@ public class BattleManager : MonoBehaviour
                     {
                         DOTween.To(() => 0, x => { }, 0, 0.4f).OnComplete(TurnStart);
                     }
+
+                    foreach(var action in TurnEndAction)
+                    {
+                        action();
+                    }
+                    TurnEndAction.Clear();
                 }
                 else
                 {
@@ -229,6 +238,9 @@ public class BattleManager : MonoBehaviour
         CardPlaying = true;
         EchoList.Clear();
 
+        Player.Ready();
+        Mirror.Ready();
+
         foreach(var card in PlayerHand)
         {
             card.SetInteractable(false);
@@ -247,6 +259,8 @@ public class BattleManager : MonoBehaviour
         ShopManager.Instance.Open();//展示商店
         ShopManager.Instance.Init();
 
+        GameManager.Instance.AddCoin(5);
+
         GameManager.Instance.SaveGame();
     }
     //战斗失败
@@ -262,7 +276,12 @@ public class BattleManager : MonoBehaviour
     public void SummonNumber(int num, Color c, Vector3 pos)
     {
         ob = Instantiate(NumberOb, pos, Quaternion.identity, transform);
-        ob.GetComponent<NumberText>().Init(num, c);
+        ob.GetComponent<NumberText>().Init(num.ToString(), c);
+    }
+    public void SummonText(string s, Color c, Vector3 pos)
+    {
+        ob = Instantiate(NumberOb, pos, Quaternion.identity, transform);
+        ob.GetComponent<NumberText>().Init(s, c);
     }
     #endregion
 }

@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -132,6 +133,11 @@ public class CardData : ScriptableObject
         data.BeforePlayEffect = temple.BeforePlayEffect;
         data.WhenPlayEffect = temple.WhenPlayEffect;
         return data;
+    }
+
+    public static List<CardData> ReturnAllCards()
+    {
+        return Resources.LoadAll<CardData>(PathRoot).ToList();
     }
     #endregion
 

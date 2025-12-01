@@ -38,6 +38,11 @@ public class CardList : IEnumerable<CardData>
         Cards.AddRange(list);
     }
 
+    public void Remove(CardData data)
+    {
+        Cards.Remove(data);
+    }
+
     public CardList Clone()
     {
         CardList newlist = new();

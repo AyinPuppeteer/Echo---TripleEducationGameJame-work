@@ -22,6 +22,12 @@ public abstract class Buff
         Count += buff.Count;
     }
 
+    //战斗开始时
+    public virtual void WhenReady()
+    {
+
+    }
+
     //受伤时
     public virtual void WhenHurt(ref int damage)
     {
@@ -34,7 +40,7 @@ public abstract class Buff
 
     }
 
-    private void Remove()
+    protected void Remove()
     {
         Carrier.Buffs_.Remove(this);
     }

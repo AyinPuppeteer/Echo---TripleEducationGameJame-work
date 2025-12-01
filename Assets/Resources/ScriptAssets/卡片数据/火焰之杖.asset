@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27405ec01b9a0d240ad49f99bd380da0, type: 3}
+  m_Name: "\u706B\u7130\u4E4B\u6756"
+  m_EditorClassIdentifier: 
+  Name: 
+  Description: "\u5171\u9E23\uFF1A\u5BF9\u76EE\u6807\u65BD\u52A0$\u71C3\u70E74$"
+  Strength: 6
+  Type: 0
+  Rarity: 0
+  Image: {fileID: 21300000, guid: ab565564959ab414ab1ef33acef59303, type: 3}
+  WhenReadyEffect: []
+  BeforePlayEffect:
+  - rid: 8435568248854413341
+  WhenPlayEffect: []
+  Silent: 0
+  Diffuse: 0
+  RunOut: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8435568248854413341
+      type: {class: Resonate_BeforePlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u5171\u9E23X"
+        Effects:
+        - rid: 8435568248854413342
+    - rid: 8435568248854413342
+      type: {class: Burn_BeforePlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u71C3\u70E7X"
+        Count: 1

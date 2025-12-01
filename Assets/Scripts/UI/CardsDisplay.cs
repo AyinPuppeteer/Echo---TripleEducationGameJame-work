@@ -43,6 +43,7 @@ public class CardsDisplay : MonoBehaviour
         Card card = ob.GetComponent<Card>();
         card.Initialize(data);
         card.SetDraggable(false);
+        Cards.Add(card);
     }
 
     public void Hide()

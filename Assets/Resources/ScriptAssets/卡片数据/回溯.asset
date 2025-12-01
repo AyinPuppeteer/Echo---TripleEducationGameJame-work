@@ -17,13 +17,18 @@ MonoBehaviour:
   Strength: 0
   Type: 2
   Rarity: 1
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: 06ff90e14000d9a40bf56f51a65d7d69, type: 3}
   WhenReadyEffect: []
   BeforePlayEffect: []
-  WhenPlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413337
   Silent: 0
   Diffuse: 0
   RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413337
+      type: {class: BackTrack_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u8BB0\u5F55\u8840\u91CF\u5E76\u5728\u56DE\u5408\u7ED3\u675F\u65F6\u6062\u590D"

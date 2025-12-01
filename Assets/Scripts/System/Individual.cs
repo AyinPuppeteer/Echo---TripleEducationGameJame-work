@@ -90,11 +90,21 @@ public class Individual : MonoBehaviour
         return heal;
     }
 
+    public void Ready()
+    {
+        foreach(var buff in Buffs)
+        {
+            buff.WhenReady();
+        }
+    }
+
     public void TurnEnd()
     {
         foreach(var buff in Buffs)
         {
             buff.WhenTurnEnd();
         }
+
+        Shield = 0;//回合结束护盾消失
     }
 }

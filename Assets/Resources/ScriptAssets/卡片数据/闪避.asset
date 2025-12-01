@@ -17,13 +17,19 @@ MonoBehaviour:
   Strength: 0
   Type: 1
   Rarity: 1
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: 9f8ce5a8425bb134ea341b42cb79dff1, type: 3}
   WhenReadyEffect: []
   BeforePlayEffect: []
-  WhenPlayEffect: []
+  WhenPlayEffect:
+  - rid: 8435568248854413340
   Silent: 1
   Diffuse: 0
   RunOut: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8435568248854413340
+      type: {class: Dodge_WhenPlay, ns: , asm: Assembly-CSharp}
+      data:
+        Description: "\u95EA\u907FX"
+        Count: 1

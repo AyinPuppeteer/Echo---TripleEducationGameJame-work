@@ -14,9 +14,9 @@ public class NumberText : MonoBehaviour
         Number = GetComponent<Text>();
     }
 
-    public void Init(int num, Color c)
+    public void Init(string s, Color c)
     {
-        Number.text = num.ToString();
+        Number.text = s;
         Number.color = c;
     }
 
